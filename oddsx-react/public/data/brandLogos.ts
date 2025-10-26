@@ -1,0 +1,26 @@
+export const brandLogos = [
+  { src: "/images/icon/visa.png", alt: "Visa", width: 104, height: 30 },
+  { src: "/images/icon/netent.png", alt: "NetEnt", width: 120, height: 30 },
+  { src: "/images/icon/mastercard.png", alt: "Mastercard", width: 39, height: 30 },
+  { src: "/images/icon/skrill.png", alt: "Skrill", width: 82, height: 29 },
+  { src: "/images/icon/maestro.png", alt: "Maestro", width: 50, height: 30 },
+  { src: "/images/icon/webmoney.png", alt: "WebMoney", width: 117, height: 30 },
+  { src: "/images/icon/neteller.png", alt: "Neteller", width: 178, height: 30 },
+  { src: "/images/icon/debit.png", alt: "Debit", width: 66, height: 30 },
+  { src: "/images/icon/pragmathic-play.png", alt: "Pragmatic Play", width: 97, height: 32 },
+  { src: "/images/icon/play-go.png", alt: "Play’n GO", width: 84, height: 32 },
+  { src: "/images/icon/gamomat.png", alt: "Gamomat", width: 100, height: 32 },
+  { src: "/images/icon/paysafecard.png", alt: "Paysafecard", width: 180, height: 30 },
+
+  // 🔁 Repetidos en tu código original:
+  { src: "/images/icon/netent.png", alt: "NetEnt", width: 120, height: 30 },
+  { src: "/images/icon/mastercard.png", alt: "Mastercard", width: 39, height: 30 },
+  { src: "/images/icon/skrill.png", alt: "Skrill", width: 82, height: 29 },
+  { src: "/images/icon/maestro.png", alt: "Maestro", width: 50, height: 30 },
+  { src: "/images/icon/webmoney.png", alt: "WebMoney", width: 117, height: 30 },
+  { src: "/images/icon/neteller.png", alt: "Neteller", width: 178, height: 30 },
+  { src: "/images/icon/debit.png", alt: "Debit", width: 66, height: 30 },
+  { src: "/images/icon/pragmathic-play.png", alt: "Pragmatic Play", width: 97, height: 32 },
+  { src: "/images/icon/play-go.png", alt: "Play’n GO", width: 84, height: 32 },
+  { src: "/images/icon/gamomat.png", alt: "Gamomat", width: 100, height: 32 },
+];

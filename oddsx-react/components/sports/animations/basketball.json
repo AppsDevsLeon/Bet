@@ -1,0 +1,12 @@
+{
+  "id": "basket",
+  "name": "Basketball",
+  "svgId": "#basket",
+  "selectors": {
+    "extraLine": ".basket_extra-line > *",
+    "line": ".basket_line > *",
+    "fill": ".basket_fill > *"
+  },
+  "scripts": "const step3_bodyLines=anime({targets:'.basket_extra-line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:1500,delay:(el,i)=>i*20,autoplay:false});const step3_extraLines=anime({targets:'.basket_line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:3500,delay:(el,i)=>i*20,autoplay:false});function step3_bodyTL(){const timeline=new TimelineMax({onStart:function(){step3_bodyLines.play();step3_extraLines.play();}});timeline.staggerFromTo('.basket_fill > *',0.3,{scale:0,y:300,transformOrigin:'0% 0%'},{scale:1,y:0},-0.008);return timeline;}window.__basketRun=function(){const tl=new TimelineMax({});tl.add(step3_bodyTL(),'s3');return tl;};",
+  "init": "__basketRun"
+}

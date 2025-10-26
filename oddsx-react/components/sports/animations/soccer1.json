@@ -1,0 +1,15 @@
+{
+  "id": "soccer1",
+  "name": "Soccer 1",
+  "svgId": "#soccer1",
+  "selectors": {
+    "extraLine": ".soccer1_extra-line > *",
+    "line": ".soccer1_line > *",
+    "ballLine": ".soccer1ball > .soccer1ball-line > *",
+    "ballStagger": ".soccer1ball > g:nth-child(1) > *",
+    "ball": ".soccer1ball",
+    "fill": ".soccer1_fill > *"
+  },
+  "scripts": "TweenMax.set('#soccer1',{opacity:1});const backLines=anime({targets:'.soccer1_extra-line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:500,delay:(el,i)=>1000+i*50,autoplay:false});const bodyLines=anime({targets:'.soccer1_line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:500,delay:(el,i)=>1000+i*20,autoplay:false});const ballLines=anime({targets:'.soccer1ball > .soccer1ball-line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:500,delay:(el,i)=>1000+i*140,autoplay:false});function step1_ballTL(){const ball=new TimelineMax({onStart:function(){ballLines.play();}});ball.staggerFromTo('.soccer1ball > g:nth-child(1) > *',0.5,{scale:0},{scale:1},0.2).to('.soccer1ball',3,{rotation:760,x:2000,transformOrigin:'50% 50%',ease:Expo.easeOut,delay:1}).to('.soccer1ball',1,{autoAlpha:0},'-=1');return ball;}function step1_backTL(){const back=new TimelineMax({onStart:function(){backLines.play();},onComplete:function(){backLines.play();backLines.reverse();TweenMax.staggerTo('.soccer1_extra-line > g',1,{scale:0,transformOrigin:'50% 50%',ease:Bounce.easeOut},0.2);}});back.staggerFromTo('.soccer1_extra-line > g',1,{x:-3500,rotation:-1000,transformOrigin:'50% 50%'},{x:0,rotation:0,ease:Power4.easeOut},0.5);return back;}function step1_bodyTL(){const timeline=new TimelineMax({ease:Expo.easeOut,onStart:bodyLines.play(),onComplete:function(){bodyLines.reverse();setTimeout(()=>{TweenMax.staggerTo('.soccer1_fill > *',0.2,{scale:0,transformOrigin:'50% 50%'},0.01);},2000);}});var duration=0.3;var stagger=0.03;timeline.staggerFromTo('.soccer1_fill > *',duration,{x:-4500},{x:0},stagger);return timeline;}window.__soccer1Run=function(){const tl=new TimelineMax({});tl.add(step1_bodyTL(),'s1').add(step1_backTL(),'s1').add(step1_ballTL(),'s1');return tl;};",
+  "init": "__soccer1Run"
+}

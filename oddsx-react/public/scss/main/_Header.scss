@@ -1,0 +1,284 @@
+/* =========================
+   VARIABLES (puedes mover a :root si prefieres)
+   ========================= */
+:root {
+  --blue-h-mobile: 56px;   /* alto barra azul en mobile */
+  --blue-h-desktop: 64px;  /* alto barra azul en desktop */
+}
+
+$nav-h-mobile: 52px;       /* alto navbar blanca */
+$nav-h-desktop: 60px;
+
+/* =========================
+   BARRA AZUL (FIJA)
+   ========================= */
+.header-blue { position: relative; z-index: 1040; }
+
+.topbar-blue {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--blue-h-mobile);
+  background: linear-gradient(180deg,#1846a3 0%,#1e3a8a 60%,rgba(30,58,138,0) 100%);
+  display: flex; align-items: center;
+  z-index: 1040;
+  margin: 0; box-shadow: none;           /* sin halo */
+  backdrop-filter: saturate(1.15);
+}
+@media (min-width: 992px) {
+  .topbar-blue { height: var(--blue-h-desktop); }
+}
+
+/* Layout interno */
+.topbar-inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;  /* [logo] [search] [acciones] */
+  gap: .75rem; align-items: center;
+}
+
+/* =========================
+   NAVBAR BLANCA (STICKY con OFFSET)
+   ========================= */
+.header-section2 {
+  padding-top: 0; /* no usar offset en el contenedor */
+
+  .navbar {
+    position: sticky;
+    top: var(--blue-h-mobile);           /* offset exacto del azul */
+    z-index: 1030;                       /* debajo del azul (1040) */
+    background: #fff;
+    min-height: $nav-h-mobile;
+    padding-block: 0 !important;
+    margin: 0; border: 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,.06); /* línea sutil */
+  }
+
+  @media (min-width: 992px) {
+    .navbar {
+      top: var(--blue-h-desktop);
+      min-height: $nav-h-desktop;
+    }
+  }
+
+  /* Menú interno */
+  .navbar-nav2fixed {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(.4rem, 1.5vw, .8rem);
+    padding: 0 .5rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .navbar-nav2fixed > li { display: flex; align-items: stretch; }
+  .navbar-nav2fixed a,
+  .navbar-nav2fixed .navunik {
+    display: flex; align-items: center;
+    height: 100%; padding: 0 .75rem;
+  }
+
+  /* Toggler */
+  .navbar-toggler {
+    --bar-w: 18px; --bar-h: 2px;
+    padding: .25rem; border: 0; outline: 0;
+    span { display: block; width: var(--bar-w); height: var(--bar-h); margin: .18rem 0; background: currentColor; border-radius: 1px; }
+  }
+  @media (min-width: 992px) { .navbar-toggler { display: none; } }
+
+  .right-area { gap: .5rem !important; }
+}
+
+/* =========================
+   BRAND / UTILIDADES
+   ========================= */
+.brand { display:inline-flex; align-items:center; gap:.6rem; text-decoration:none; }
+.brand-img { width:36px; height:36px; object-fit:contain; }
+.brand-text { color:#fff; font-weight:700; letter-spacing:.2px; white-space:nowrap; font-size:1.05rem; }
+
+.actions { display:flex; align-items:center; gap:.8rem; justify-self:end; }
+.btn-solid { background:#fff; color:#0b214f; border:1px solid #fff; border-radius:10px; padding:.60rem 1rem; font-weight:700; }
+.btn-outline { background:transparent; color:#fff; border:1px solid #fff; border-radius:999px; padding:.38rem .9rem; font-weight:600; }
+
+/* =========================
+   BUSCADOR (lupa dentro del input)
+   ========================= */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0; /* no hay botón de texto */
+  justify-self: center;
+  width: min(760px, 100%);
+}
+
+.search-input.with-icon {
+  flex: 1;
+  height: 42px;
+  padding: .45rem .9rem;
+  padding-right: 2.6rem;               /* espacio para la lupa */
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  outline: none;
+}
+.search-input.with-icon::placeholder { color: rgba(255,255,255,.9); }
+.search-input.with-icon:focus {
+  border-color: #fff;
+  background: rgba(255,255,255,.24);
+}
+
+.search-icon-btn {
+  position: absolute;
+  top: 50%;
+  right: .35rem;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.search-icon-btn:hover { background: rgba(255,255,255,.15); }
+.search-icon-btn:active { transform: translateY(-50%) scale(.98); }
+.search-icon-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 991px) {
+  .brand-text { display:none; }
+  .search-input.with-icon { height: 40px; }
+  .search-icon-btn { width: 34px; height: 34px; right: .3rem; }
+  .actions { gap:.5rem; }
+}
+
+/* =========================
+   LIMPIEZA / ANCHO COMPLETO
+   ========================= */
+.has-blue-offset { padding-top: 0 !important; } /* sin doble offset */
+
+.fullwidth-header,
+.fullwidth-header .navbar {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.fullwidth-header .container,
+.fullwidth-header .container-fluid,
+.fullwidth-header .topbar-inner {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+/* === FULL LEFT / SIN GRIETAS EN EL BORDE IZQUIERDO === */
+
+/* 1) La barra azul: quita el max-width y el padding del contenedor interno */
+.header-blue .topbar-inner {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;          /* elimina el 1rem que te empujaba a la derecha */
+}
+
+/* (Opcional) si quieres un pelín de respiro: */
+/* .header-blue .topbar-inner { padding-left: .25rem !important; } */
+
+/* 2) Asegura que la marca (logo) no tenga margen propio */
+.header-blue .brand { margin-left: 0 !important; }
+
+
+
+/* 4) El <ul> del menú sin padding lateral extra */
+.header-section2 .navbar-nav2fixed {
+  padding-left: 0 !important;   /* antes: 0 .5rem */
+  top: calc(var(--blue-h-mobile) - 1px)
+  /* si quieres mantener un poquito de aire a la derecha:
+     padding-right: .5rem; */
+}
+
+/* 5) Por si algún contenedor genérico mete padding: */
+.fullwidth-header,
+.fullwidth-header .container,
+.fullwidth-header .container-fluid,
+.fullwidth-header .topbar-blue,
+.fullwidth-header .topbar-inner {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* ===== SOLO BARRA DE ABAJO (HEADER/ NAVBAR) ===== */
+
+/* 1) El <nav> sin márgenes/padding laterales y a todo lo ancho */
+.header-section2 .navbar {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  top: calc(var(--blue-h-mobile) - 1px);
+  width: 100vw;         /* ocupa todo el viewport */
+  max-width: 100vw;
+}
+
+/* 2) Si dentro del nav usas .container / .container-fluid de Bootstrap, quítale el gutter */
+.header-section2 .navbar > .container,
+.header-section2 .navbar > .container-fluid {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* 3) La zona colapsable tampoco debe meter margen */
+.header-section2 .navbar-collapse {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  top: calc(var(--blue-h-mobile) - 1px)
+}
+
+/* 4) El <ul> del menú SIN padding a la izquierda */
+.header-section2 .navbar-nav2fixed {
+  padding-left: clamp(6px, 0.8vw, 14px) !important;
+  padding-right: 0 !important;
+  justify-content: flex-start;   /* pegado a la izquierda */
+  gap: clamp(.4rem, 1.5vw, .8rem);
+}
+
+/* 5) Cada item/link sin desplazamientos extra */
+.header-section2 .navbar-nav2fixed > li {margin-left: clamp(6px, 0.8vw, 14px); }
+.header-section2 .navbar-nav2fixed a,
+.header-section2 .navbar-nav2fixed .navunik {
+  padding-left: .75rem;   /* ajusta si quieres aún más pegado */
+  padding-right: .75rem;
+}
+
+/* 6) Por si alguna utilidad agrega ‘gutter’ horizontal */
+.header-section2 .row,
+.header-section2 [class*="gx-"],
+.header-section2 [class*="px-"] {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* 7) Mantén el alto y el offset como ya tenías */
+.header-section2 .navbar {
+  position: sticky;
+  top: var(--blue-h-mobile);
+}
+@media (min-width: 992px) {
+  .header-section2 .navbar { top: var(--blue-h-desktop); }
+}

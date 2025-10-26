@@ -1,0 +1,12 @@
+{
+  "id": "soccer2",
+  "name": "Soccer 2",
+  "svgId": "#soccer2",
+  "selectors": {
+    "line": ".soccer2_line path",
+    "extraLine": ".soccer2_extra-line > *",
+    "fill": ".soccer2_fill > *"
+  },
+  "scripts": "const step2_bodyLines=anime({targets:'.soccer2_line path',strokeDashoffset:[anime.setDashoffset,99200],easing:'easeInOutSine',duration:2500,delay:(el,i)=>1000+i*20,autoplay:false});const step2_bodyExtra=anime({targets:'.soccer2_extra-line > *',strokeDashoffset:[anime.setDashoffset,0],easing:'easeInOutSine',duration:1500,delay:(el,i)=>1000+i*20,autoplay:false});function step2_bodyTL(){const timeline=new TimelineMax({onStart:function(){step2_bodyExtra.play();step2_bodyLines.play();},onComplete:function(){}});timeline.staggerFromTo('.soccer2_fill > *',0.2,{scale:0,transformOrigin:'100% 100%'},{scale:1},0.03).to('.soccer2_fill',1,{onStart:function(){step2_bodyExtra.reverse();step2_bodyLines.reverse();step2_bodyExtra.play();step2_bodyLines.play();}}).staggerTo('.soccer2_fill > *',0.2,{scale:0,delay:2},0.01);return timeline;}window.__soccer2Run=function(){const tl=new TimelineMax({});tl.add(step2_bodyTL(),'s2');return tl;};",
+  "init": "__soccer2Run"
+}

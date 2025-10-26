@@ -1,0 +1,104 @@
+.home-hero {
+  position: relative;
+  isolation: isolate;               /* asegura capas propias */
+  min-height: 100svh;               /* ocupa alto de pantalla */
+  padding-block: clamp(56px, 8vh, 96px);
+  padding-inline: clamp(16px, 6vw, 80px);
+  display: grid;
+  align-content: center;            /* por defecto CENTRADO */
+  text-align: center;
+  background: var(--surface);
+  color: #0a0f1a;
+
+  /* Si prefieres fondo oscuro para toda la sección,
+     descomenta estas 2 líneas: */
+  /* background: var(--brand-bg);
+     color: #e5e7eb; */
+
+  /* Modificadores de alineación vertical */
+  &--bottom { align-content: end; }
+  &--top    { align-content: start; }
+
+  /* Palabra gigante del fondo ("SPORTS") */
+  &__bgword {
+    position: absolute;
+    inset: 0;                       /* ocupa la sección */
+    display: grid;
+    place-content: start center;
+    padding-top: clamp(8px, 4vh, 24px);
+
+    /* el texto en sí */
+    &::after {
+      content: attr(data-text);     /* toma el texto del atributo data-text */
+      font-weight: 900;
+      letter-spacing: .06em;
+      line-height: .85;
+      white-space: nowrap;
+      font-size: clamp(180px, 35vw, 720px);
+      color: rgba(15, 23, 42, 0.08); /* azul muy pálido */
+      /* si usas fondo oscuro, cámbialo a rgba(255,255,255,.06) */
+      pointer-events: none;
+      user-select: none;
+    }
+    z-index: 0;
+  }
+
+  /* Contenido principal (título, texto, botón) */
+  &__content {
+    position: relative;
+    z-index: 1;                     /* encima de la palabra gigante */
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+
+  &__title {
+    font-size: var(--font-title);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: .03em;
+    margin: 0;
+    color: #0b1020;                 /* título en tinta fuerte */
+    /* si usas fondo oscuro: color: #ffffff; */
+  }
+
+  &__sub {
+    font-size: var(--font-sub);
+    margin: clamp(10px, 1.5vh, 16px) auto 0;
+    max-width: 68ch;
+    color: var(--muted-ink);
+    /* si fondo oscuro: color: rgba(255,255,255,.8); */
+  }
+
+  /* Botón dorado */
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: clamp(18px, 3.5vh, 28px);
+    padding: 12px 22px;
+    font-weight: 700;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    box-shadow: var(--shadow);
+    color: #141414;
+    text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+
+    &:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    &:active { transform: translateY(0);   filter: brightness(.98); }
+  }
+}
+
+/* =========== Utilidades opcionales =========== */
+
+/* Recorta la palabra gigante para que nunca tape el texto
+   en pantallas muy pequeñas: */
+@media (max-width: 480px) {
+  .home-hero__bgword::after { font-size: clamp(160px, 40vw, 420px); }
+}
+
+/* Variante con fondo oscuro para TODO el sitio (global) */
+body.theme-dark {
+  background: var(--brand-bg);
+  color: #e5e7eb;
+}

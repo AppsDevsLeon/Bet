@@ -1,0 +1,14 @@
+{
+  "Auth": {
+    "Login": {
+      "title": "Login",
+      "subtitle": "Sign in to your account to continue.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign Up Now",
+      "orContinue": "Or continue with",
+      "createAccountQuestion": "Create your account?",
+      "createAccountCta": "Sign Up Now"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "Footer": {
+    "sports": "Sports",
+    "sports_link": "Sports",
+    "live_betting": "Paris en direct",
+    "virtuals": "Virtuels",
+    "football": "Football",
+    "basketball": "Basket-ball",
+    "ice_hockey": "Hockey sur glace",
+
+    "promotions": "Promotions",
+    "sports_promotions": "Promotions sportives",
+    "tournaments": "Tournois",
+    "achievements": "Succès",
+    "bonus_shop": "Boutique de bonus",
+
+    "help": "Aide",
+    "help_link": "Aide",
+    "bet_slip_check": "Vérifier le coupon",
+    "deposits_withdrawals": "Dépôts / Retraits",
+    "sports_results": "Résultats sportifs",
+    "sports_stats": "Statistiques sportives",
+
+    "security_privacy": "Sécurité et confidentialité",
+    "privacy_policy": "Politique de confidentialité",
+    "terms_conditions": "Conditions générales",
+    "cookie_policy": "Politique relative aux cookies",
+
+    "join_community": "Rejoignez notre communauté"
+  },
+   "Nav": {
+    "soccer": "Football",
+    "tennis": "Tennis",
+    "basketball": "Basket",
+    "cricket": "Cricket",
+    "ecricket": "eCricket",
+    "american_football": "Football américain",
+    "ice_hockey": "Hockey sur glace",
+    "nba2k": "NBA 2K",
+    "volleyball": "Volley-ball",
+    "fifa_volta": "FIFA: Volta",
+    "penalty_shootout": "Tirs au but",
+    "handball": "Handball",
+    "table_tennis": "Tennis de table",
+    "kabaddi": "Kabaddi",
+    "efighting": "eFighting",
+    "erocket_league": "eRocket League",
+    "aussie_rules": "Football australien",
+    "rugby": "Rugby",
+    "eshooter": "eShooter",
+    "boxing": "Boxe",
+    "mma": "MMA",
+    "futsal": "Futsal",
+    "bandy": "Bandy",
+    "waterpolo": "Water-polo",
+    "floorball": "Floorball",
+    "cycling": "Cyclisme",
+    "specials": "Paris spéciaux",
+    "darts": "Fléchettes",
+    "squash": "Squash",
+    "wrestling": "Lutte",
+    "home": "Accueil",
+    "live_betting": "Paris en direct",
+    "sports": "Sports",
+    "esports": "eSports",
+    "racing": "Courses",
+    "promotions": "Promotions"
+  },
+  "Auth": {
+    "login": "Se connecter",
+    "signup": "S'inscrire"
+  },
+  "SideNav": {
+    "home": "Accueil",
+    "marketplace": "Marketplace",
+    "in_play": "En direct"
+  },
+  "NavSection": {
+    "popular": "Populaires",
+    "other_sports": "Autres sports"
+  }
+}

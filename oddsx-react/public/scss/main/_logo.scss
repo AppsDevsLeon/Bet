@@ -1,0 +1,29 @@
+/* Evita que el logo se comprima en layouts flex/Bootstrap */
+.brand-lockup{
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Asegura que el SVG se vea completo y no se recorte */
+.brand-lockup svg{
+  display: block;
+  width: auto !important;     /* el ancho se calcula por el alto */
+  overflow: visible;          /* por si el stroke sobresale */
+}
+
+/* Tamaños responsivos recomendados */
+@media (min-width: 768px){
+  .brand-lockup svg{ height: 60px !important; }
+}
+@media (min-width: 1200px){
+  .brand-lockup svg{ height: 64px !important; }
+}
+
+/* Ajustes visuales opcionales */
+.brand-coin{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+.brand-text{ transition: transform .2s ease, filter .2s ease; }
+.brand-lockup:hover .brand-text{
+  transform: translateY(-1px);
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.25));
+}

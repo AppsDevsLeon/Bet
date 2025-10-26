@@ -1,0 +1,22 @@
+{
+  "Sports": {
+    "AmericanFootball": {
+      "titles": { "upcoming": "American Football — Upcoming" },
+      "meta": { "league": "USA Regular Season", "todayAt": "Today, {time}" },
+      "table": {
+        "winnerInclOt": "Winner (incl overtime)",
+        "handicapInclOt": "Handicap (incl overtime)",
+        "totalInclOt": "Total (incl overtime)"
+      },
+      "labels": { "draw": "draw" },
+      "alt": {
+        "clock": "Clock",
+        "sport": "American football",
+        "trend": "Trend",
+        "tshirt": "Uniform",
+        "lineChart": "Line chart",
+        "star": "Favorite"
+      }
+    }
+  }
+}

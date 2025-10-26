@@ -1,0 +1,160 @@
+/* SideNav.module.scss */
+
+/* Paleta (solo para este módulo) */
+$bg-900: #0f2320;
+$bg-800: #122c28;
+$bg-700: #17362f;
+$line-700: rgba(255, 255, 255, 0.08);
+
+$pill: #1f4a41;
+$pill-active: #2a6a5c;
+$pill-text: #e8f0ec;
+
+$text: #f3f7f6;
+$muted: #bdc2d1;
+$accent: #ffc83d;
+
+$h: 44px;
+$r-lg: 12px;
+$gap: 10px;
+
+/* helpers */
+@mixin flex-center($gap: 0) {
+  display: inline-flex;
+  align-items: center;
+  gap: $gap;
+}
+
+@mixin pill-base {
+  min-height: $h;
+  width: 100%;
+  padding: 0 12px;
+  border-radius: $r-lg;
+  border: 1px solid $line-700;
+  background: $bg-800;
+  color: $text;
+}
+
+.snv {
+  color: $text;
+  width: 100%;
+
+  /* ===== buscador ===== */
+  &__search {
+    position: relative;
+    height: $h;
+    margin-bottom: $gap;
+
+    .snv__input {
+      width: 100%;
+      height: 100%;
+      background: $bg-700;
+      border: 1px solid $line-700;
+      border-radius: $r-lg;
+      color: $text;
+      padding: 0 42px 0 12px;
+      outline: none;
+
+      &::placeholder {
+        color: $muted;
+      }
+    }
+
+    .snv__iconbtn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      border: none;
+      background: $pill;
+      color: $pill-text;
+      cursor: pointer;
+    }
+  }
+
+  /* ===== acciones verticales (Home / Live / Prematch / Marketplace) ===== */
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  &__item {
+    @include pill-base();
+    @include flex-center();
+    justify-content: space-between;
+    text-decoration: none;
+
+    &:hover {
+      filter: brightness(1.04);
+    }
+
+    &.is-active {
+      background: $pill-active;
+      color: $pill-text;
+      border-color: transparent;
+    }
+  }
+
+  &__left {
+    @include flex-center(8px);
+  }
+
+  &__badge {
+    color: $accent;
+    font-weight: 600;
+  }
+
+  /* ===== títulos y listas ===== */
+  &__title {
+    margin: 14px 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &--mb {
+      margin-bottom: 14px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    transition: background 0.15s ease;
+
+    &.is-active {
+      background: $pill;
+    }
+  }
+
+  &__rowLink {
+    @include flex-center(8px);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__star {
+    color: $accent;
+  }
+
+  &__hr {
+    border: 0;
+    border-top: 1px solid $line-700;
+    margin: 12px 0;
+  }
+}

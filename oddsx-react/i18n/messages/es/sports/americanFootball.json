@@ -1,0 +1,22 @@
+{
+  "Sports": {
+    "AmericanFootball": {
+      "titles": { "upcoming": "Fútbol americano — Próximos" },
+      "meta": { "league": "Temporada regular USA", "todayAt": "Hoy, {time}" },
+      "table": {
+        "winnerInclOt": "Ganador (incluye prórroga)",
+        "handicapInclOt": "Hándicap (incluye prórroga)",
+        "totalInclOt": "Total (incluye prórroga)"
+      },
+      "labels": { "draw": "empate" },
+      "alt": {
+        "clock": "Reloj",
+        "sport": "Fútbol americano",
+        "trend": "Tendencia",
+        "tshirt": "Uniforme",
+        "lineChart": "Gráfica de línea",
+        "star": "Favorito"
+      }
+    }
+  }
+}

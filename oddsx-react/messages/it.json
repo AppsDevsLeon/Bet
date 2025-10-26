@@ -1,0 +1,82 @@
+{
+  "Footer": {
+    "sports": "Sport",
+    "sports_link": "Sport",
+    "live_betting": "Scommesse live",
+    "virtuals": "Virtuali",
+    "football": "Calcio",
+    "basketball": "Basket",
+    "ice_hockey": "Hockey su ghiaccio",
+
+    "promotions": "Promozioni",
+    "sports_promotions": "Promozioni sportive",
+    "tournaments": "Tornei",
+    "achievements": "Obiettivi",
+    "bonus_shop": "Negozio bonus",
+
+    "help": "Assistenza",
+    "help_link": "Assistenza",
+    "bet_slip_check": "Verifica schedina",
+    "deposits_withdrawals": "Depositi / Prelievi",
+    "sports_results": "Risultati sportivi",
+    "sports_stats": "Statistiche sportive",
+
+    "security_privacy": "Sicurezza e privacy",
+    "privacy_policy": "Informativa sulla privacy",
+    "terms_conditions": "Termini e condizioni",
+    "cookie_policy": "Informativa sui cookie",
+
+    "join_community": "Unisciti alla community"
+  },
+  "Nav": {
+    "soccer": "Calcio",
+    "tennis": "Tennis",
+    "basketball": "Basket",
+    "cricket": "Cricket",
+    "ecricket": "eCricket",
+    "american_football": "Football americano",
+    "ice_hockey": "Hockey su ghiaccio",
+    "nba2k": "NBA 2K",
+    "volleyball": "Pallavolo",
+    "fifa_volta": "FIFA: Volta",
+    "penalty_shootout": "Calci di rigore",
+    "handball": "Pallamano",
+    "table_tennis": "Tennistavolo",
+    "kabaddi": "Kabaddi",
+    "efighting": "eFighting",
+    "erocket_league": "eRocket League",
+    "aussie_rules": "Calcio australiano",
+    "rugby": "Rugby",
+    "eshooter": "eShooter",
+    "boxing": "Boxe",
+    "mma": "MMA",
+    "futsal": "Futsal",
+    "bandy": "Bandy",
+    "waterpolo": "Pallanuoto",
+    "floorball": "Floorball",
+    "cycling": "Ciclismo",
+    "specials": "Scommesse speciali",
+    "darts": "Freccette",
+    "squash": "Squash",
+    "wrestling": "Wrestling",
+    "home": "Home",
+    "live_betting": "Scommesse in diretta",
+    "sports": "Sport",
+    "esports": "eSports",
+    "racing": "Corse",
+    "promotions": "Promozioni"
+  },
+  "Auth": {
+    "login": "Accedi",
+    "signup": "Registrati"
+  },
+  "SideNav": {
+    "home": "Home",
+    "marketplace": "Marketplace",
+    "in_play": "In tempo reale"
+  },
+  "NavSection": {
+    "popular": "Popolari",
+    "other_sports": "Altri sport"
+  }
+}
