@@ -1,11 +1,10 @@
-import CreateAcount from '@/components/Pages/CreateAcount/CreateAcount'
-import LogRegHeader from '@/components/Shared/LogRegHeader'
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
-            <LogRegHeader />
-            <CreateAcount />
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

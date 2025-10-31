@@ -1,15 +1,10 @@
-import SoccerLive from "@/components/Pages/Soccer/SoccerLive";
-import TopSoccer from "@/components/Pages/Soccer/TopSoccer";
-import UpCmingSoccer from "@/components/Pages/Soccer/UpCmingSoccer";
-
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
-  return (
-    <>
+    return (
+        <>
 
-      <TopSoccer />
-      <SoccerLive />
-      <UpCmingSoccer />
-    </>
-  )
+                 <NFLSection sportSlug="soccer" />
+        </>
+    )
 }

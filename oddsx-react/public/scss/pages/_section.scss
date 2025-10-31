@@ -1,7 +1,8 @@
 // Promotion page starts
 .Promotions{
   &__main {
-    margin: 137px 20px 0 303px;
+    margin: 18vh 2.5vw 0 2.5vw;
+
 
     @include maxQuery(1399) {
         // padding-top: 60px;

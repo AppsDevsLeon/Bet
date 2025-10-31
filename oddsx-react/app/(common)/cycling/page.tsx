@@ -1,16 +1,10 @@
-import OutrightsPolitics from '@/components/Pages/Cycling/OutrightsPolitics'
-import ParisRoubaixWinner from '@/components/Pages/Cycling/ParisRoubaixWinner'
-import TourFlandersWinner from '@/components/Pages/Cycling/TourFlandersWinner'
-import TourFranceWinner from '@/components/Pages/Cycling/TourFranceWinner'
-import React from 'react'
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
-            <OutrightsPolitics />
-            <TourFranceWinner />
-            <ParisRoubaixWinner />
-            <TourFlandersWinner />
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

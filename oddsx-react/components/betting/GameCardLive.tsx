@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Pill from "./Pill";
 import type { GameCardData, Seleccion } from "./types";
 
 export default function GameCardLive({
@@ -15,99 +14,200 @@ export default function GameCardLive({
 }) {
   return (
     <>
-      <article className="card-wrap">
-        {/* TOP ROW LIVE */}
-        <div className="top-row">
-          <div className="left-top">
-            <span className="live-flag">
-              {game.liveLabel ?? "LIVE"} <span className="dot">•</span>
-            </span>
-            <span className="clock">{game.liveClock}</span>
-            <span className="vol">{game.vol}</span>
-          </div>
+      <article className="live-card-wrap">
+        <ScoreHeaderLive game={game} onOpenGame={onOpenGame} />
 
-          <button
-            className="gameview-btn"
-            onClick={() => onOpenGame(game.id)}
-            type="button"
-          >
-            <span className="bubble">{game.marketsCount}</span>
-            <span className="txt">Game View</span>
-            <span className="arrow">›</span>
-          </button>
+        <div className="markets-head">
+          <div className="col-team" />
+          <div className="col-head">MONEYLINE</div>
+          <div className="col-head">SPREAD</div>
+          <div className="col-head">TOTAL</div>
         </div>
 
-        {/* GRID: TEAMS + MARKETS */}
-        <div className="teams-markets">
-          <div className="teams-col">
-            <TeamLine side={game.away} />
-            <TeamLine side={game.home} />
-          </div>
+        <GameRowCompact
+          abbr={game.away.abbr}
+          name={game.away.name}
+          record={game.away.record}
+          badgeBg={game.away.color || "#8b0000"}
+          divisionOrNote={game.away.divisionOrNote || game.away.rankOrSeed}
+          partidoId={game.id}
+          moneyline={game.moneyline?.[0]}
+          spread={game.spread?.[0]}
+          total={game.total?.[0]}
+          onPick={onPick}
+        />
 
-          <MarketColumn
-            title="Moneyline"
-            opts={game.moneyline.slice(0, 3)}
-            mercado="Moneyline"
-            partidoId={game.id}
-            onPick={onPick}
-          />
-
-          <MarketColumn
-            title="Spread"
-            opts={game.spread.slice(0, 2)}
-            mercado="Spread"
-            partidoId={game.id}
-            onPick={onPick}
-          />
-
-          <MarketColumn
-            title="Total"
-            opts={game.total.slice(0, 2)}
-            mercado="Total"
-            partidoId={game.id}
-            onPick={onPick}
-          />
-        </div>
+        <GameRowCompact
+          abbr={game.home.abbr}
+          name={game.home.name}
+          record={game.home.record}
+          badgeBg={game.home.color || "#1e3a8a"}
+          divisionOrNote={game.home.divisionOrNote || game.home.rankOrSeed}
+          partidoId={game.id}
+          moneyline={game.moneyline?.[1]}
+          spread={game.spread?.[1]}
+          total={game.total?.[1]}
+          onPick={onPick}
+        />
       </article>
 
       <style jsx>{`
-        .card-wrap {
+        .live-card-wrap {
           border: 1px solid #e5e7eb;
           border-radius: 12px;
           background: #fff;
-          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
           padding: 16px;
           display: grid;
           row-gap: 16px;
         }
 
-        .top-row {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 12px;
-          font-size: 0.8rem;
-          line-height: 1.2;
+        .markets-head {
+          display: grid;
+          grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(180px, 1fr));
+          column-gap: 12px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
 
-        .left-top {
+        @media (max-width: 900px) {
+          .markets-head {
+            display: none;
+          }
+        }
+      `}</style>
+    </>
+  );
+}
+
+/* 🏈 HEADER: marcador redondeado con “:” */
+function ScoreHeaderLive({
+  game,
+  onOpenGame,
+}: {
+  game: GameCardData;
+  onOpenGame: (id: string) => void;
+}) {
+  const away = game.away;
+  const home = game.home;
+
+  // fallback del marcador, si no hay score todavía
+  const sA = away.scoreLive && away.scoreLive !== "" ? away.scoreLive : "0";
+  const sH = home.scoreLive && home.scoreLive !== "" ? home.scoreLive : "0";
+
+  return (
+    <>
+      <header className="score-header">
+        {/* ===== LEFT: estado / reloj / volumen ===== */}
+        <div className="live-info">
+          {game.isLive ? (
+            <span className="live-flag">LIVE •</span>
+          ) : (
+            game.kickoff && <span className="kickoff">{game.kickoff}</span>
+          )}
+
+          {game.liveClock && (
+            <span className="clock">{game.liveClock}</span>
+          )}
+
+          {game.vol && <span className="vol">{game.vol}</span>}
+        </div>
+
+        {/* ===== CENTER: marcador estilo círculo/logo ===== */}
+        <div className="score-block">
+          {/* Lado visitante */}
+          <div className="team-score-side">
+            <div className="team-bubble">
+              {away.logo ? (
+                <img
+                  src={away.logo}
+                  alt={away.name}
+                  className="team-logo"
+                />
+              ) : (
+                <span className="team-fallback">{away.abbr}</span>
+              )}
+            </div>
+
+            {/* 👇 Abajo ponemos el nombre completo, NO el abbr otra vez */}
+            <div className="team-label">{away.name}</div>
+          </div>
+
+          {/* Marcador */}
+          <div className="score-numbers">
+            <span className="num-left">{sA}</span>
+            <span className="colon">:</span>
+            <span className="num-right">{sH}</span>
+          </div>
+
+          {/* Lado local */}
+          <div className="team-score-side">
+            <div className="team-bubble">
+              {home.logo ? (
+                <img
+                  src={home.logo}
+                  alt={home.name}
+                  className="team-logo"
+                />
+              ) : (
+                <span className="team-fallback">{home.abbr}</span>
+              )}
+            </div>
+
+            {/* 👇 Igual acá: nombre completo, no "SF" repetido */}
+            <div className="team-label">{home.name}</div>
+          </div>
+        </div>
+
+        {/* ===== RIGHT: botón Game View ===== */}
+        <button
+          className="gameview-btn"
+          onClick={() => onOpenGame(game.id)}
+          type="button"
+        >
+          <span className="bubble">{game.marketsCount}</span>
+          <span className="txt">Game View</span>
+          <span className="arrow">›</span>
+        </button>
+      </header>
+
+      <style jsx>{`
+        /* ===== CONTENEDOR HEADER GENERAL ===== */
+        .score-header {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          align-items: center;
+          column-gap: 12px;
+          border-bottom: 1px solid #e5e7eb;
+          padding-bottom: 12px;
+        }
+
+        /* ===== IZQUIERDA: LIVE info ===== */
+        .live-info {
           display: flex;
           flex-wrap: wrap;
-          align-items: center;
-          gap: 8px;
+          align-items: baseline;
+          gap: 6px;
+          font-size: 0.85rem;
+          line-height: 1.2;
         }
 
         .live-flag {
           color: #c6424a;
           font-weight: 700;
         }
-        .dot {
-          color: #c6424a;
+
+        .kickoff {
+          font-weight: 600;
+          color: #111827;
         }
 
         .clock {
-          color: #111827;
           font-weight: 600;
+          color: #111827;
         }
 
         .vol {
@@ -115,6 +215,99 @@ export default function GameCardLive({
           font-weight: 400;
         }
 
+        /* ===== CENTRO: SCOREBLOCK ===== */
+        .score-block {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+        }
+
+        /* cada lado (logo+círculo+nombre) */
+        .team-score-side {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 80px;
+        }
+
+        /* círculo con logo o siglas */
+        .team-bubble {
+          width: 56px;
+          height: 56px;
+          border-radius: 9999px;
+          background: radial-gradient(
+            circle at 30% 30%,
+            #ffffff 0%,
+            #eef2ff 70%
+          );
+          border: 1px solid #d1d5db;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .team-logo {
+          width: 36px;
+          height: 36px;
+          object-fit: contain;
+        }
+
+        .team-fallback {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #111827;
+          text-align: center;
+        }
+
+        /* 👇 este es el texto que aparece ABAJO del círculo */
+        .team-label {
+          font-size: 0.7rem;
+          font-weight: 500;
+          color: #374151;
+          text-align: center;
+          line-height: 1rem;
+          margin-top: 6px;
+          max-width: 90px;
+          white-space: nowrap;
+        }
+
+        /* NUMEROS DEL MARCADOR */
+        .score-numbers {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          line-height: 1;
+        }
+
+        /* izquierda morado llamativo */
+        .num-left {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #4f46e5;
+          min-width: 2ch;
+          text-align: right;
+        }
+
+        .colon {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #111827;
+        }
+
+        /* derecha negro */
+        .num-right {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #111827;
+          min-width: 2ch;
+          text-align: left;
+        }
+
+        /* ===== DERECHA: GAME VIEW ===== */
         .gameview-btn {
           margin-left: auto;
           display: flex;
@@ -126,13 +319,17 @@ export default function GameCardLive({
           font-size: 0.75rem;
           line-height: 1rem;
           padding: 6px 10px;
-          color: #111827;
+          color: #4f46e5;
           box-shadow: 0 2px 0 #cfcfcf;
           cursor: pointer;
+          font-weight: 600;
           white-space: nowrap;
+          height: fit-content;
         }
+
         .bubble {
-          background: #e5e7eb;
+          background: #ffffff;
+          border: 1px solid #d1d5db;
           border-radius: 6px;
           padding: 0 6px;
           font-weight: 600;
@@ -140,26 +337,153 @@ export default function GameCardLive({
           line-height: 1.2;
           color: #111827;
         }
+
+        .txt {
+          font-weight: 600;
+        }
+
         .arrow {
           font-weight: 600;
           color: #6b7280;
         }
 
-        .teams-markets {
-          display: grid;
-          grid-template-columns: minmax(180px, 1fr) repeat(3, minmax(160px, 1fr));
-          column-gap: 16px;
-          row-gap: 16px;
-        }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+          .score-header {
+            grid-template-columns: 1fr;
+            row-gap: 12px;
+          }
 
-        .teams-col {
-          display: grid;
-          row-gap: 16px;
-          min-width: 0;
-        }
+          .score-block {
+            order: 2;
+            flex-wrap: wrap;
+          }
 
-        @media (max-width: 700px) {
-          .teams-markets {
+          .live-info {
+            order: 1;
+          }
+
+          .gameview-btn {
+            order: 3;
+            margin-left: 0;
+          }
+        }
+      `}</style>
+    </>
+  );
+}
+
+
+
+
+
+/* ========================= GAME ROW ========================= */
+function GameRowCompact({
+  abbr,
+  name,
+  record,
+  badgeBg,
+  divisionOrNote,
+  partidoId,
+  moneyline,
+  spread,
+  total,
+  onPick,
+}: {
+  abbr: string;
+  name: string;
+  record?: string;
+  badgeBg: string;
+  divisionOrNote?: string;
+  partidoId: string;
+  moneyline?: { label: string; price: string; tone?: string };
+  spread?: { label: string; price: string; tone?: string };
+  total?: { label: string; price: string; tone?: string };
+  onPick: (sel: Seleccion) => void;
+}) {
+  return (
+    <>
+      <div className="gamerow-wrap">
+        <div className="teamcell">
+          <div className="left-col">
+            {divisionOrNote && (
+              <div className="seed-chip">{divisionOrNote}</div>
+            )}
+            <div className="mini-badge" style={{ background: badgeBg }}>
+              {abbr}
+            </div>
+            <div className="team-meta">
+              <div className="team-line">
+                <span className="strong">{abbr}</span> {name}
+              </div>
+              {record && <div className="record">{record}</div>}
+            </div>
+          </div>
+        </div>
+
+        <OddsCell
+          opt={moneyline}
+          toneOverride={abbr === "KC" ? "red" : abbr === "SF" ? "blue" : undefined}
+          mercado="Moneyline"
+          partidoId={partidoId}
+          onPick={onPick}
+        />
+        <OddsCell
+          opt={spread}
+          mercado="Spread"
+          partidoId={partidoId}
+          onPick={onPick}
+        />
+        <OddsCell
+          opt={total}
+          mercado="Total"
+          partidoId={partidoId}
+          onPick={onPick}
+        />
+      </div>
+
+      <style jsx>{`
+        .gamerow-wrap {
+          display: grid;
+          grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(180px, 1fr));
+          gap: 12px;
+          align-items: flex-start;
+        }
+        .left-col {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .seed-chip {
+          background: #f9fafb;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          padding: 4px 8px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: #111827;
+        }
+        .mini-badge {
+          min-width: 40px;
+          min-height: 32px;
+          color: #fff;
+          font-size: 0.8rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 6px;
+        }
+        .team-line {
+          font-weight: 600;
+          color: #111827;
+        }
+        .record {
+          color: #6b7280;
+          font-size: 0.75rem;
+        }
+        @media (max-width: 900px) {
+          .gamerow-wrap {
             grid-template-columns: 1fr;
           }
         }
@@ -168,145 +492,67 @@ export default function GameCardLive({
   );
 }
 
-function TeamLine({
-  side,
-}: {
-  side: {
-    abbr: string;
-    name: string;
-    record?: string;
-    rankOrSeed?: string;
-    color?: string;
-  };
-}) {
-  const badgeColor = side.color || "#1e3a8a";
-
-  return (
-    <>
-      <div className="teamline">
-        <div className="rankbox">{side.rankOrSeed ?? ""}</div>
-        <div className="emblem" style={{ background: badgeColor }}>
-          {side.abbr}
-        </div>
-
-        <div className="meta">
-          <div className="name">
-            {side.abbr} {side.name}
-          </div>
-          {side.record && <div className="rec">{side.record}</div>}
-        </div>
-      </div>
-
-      <style jsx>{`
-        .teamline {
-          display: grid;
-          grid-template-columns: auto auto 1fr;
-          align-items: center;
-          column-gap: 12px;
-          font-size: 0.9rem;
-          line-height: 1.2;
-        }
-
-        .rankbox {
-          min-width: 32px;
-          min-height: 32px;
-          border-radius: 6px;
-          border: 1px solid #d1d5db;
-          background: #f9fafb;
-          box-shadow: 0 2px 0 #cfcfcf;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #111827;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .emblem {
-          min-width: 44px;
-          min-height: 36px;
-          border-radius: 6px;
-          color: #fff;
-          font-size: 0.8rem;
-          font-weight: 700;
-          line-height: 36px;
-          text-align: center;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-        }
-
-        .meta {
-          display: grid;
-          row-gap: 2px;
-        }
-        .name {
-          font-weight: 600;
-          color: #111827;
-        }
-        .rec {
-          font-size: 0.8rem;
-          color: #6b7280;
-          line-height: 1.2;
-        }
-      `}</style>
-    </>
-  );
-}
-
-function MarketColumn({
-  title,
-  opts,
+/* ========================= ODDS CELL ========================= */
+function OddsCell({
+  opt,
   mercado,
   partidoId,
   onPick,
+  toneOverride,
 }: {
-  title: string;
-  opts: { label: string; price: string; tone?: string }[];
+  opt?: { label: string; price: string; tone?: string };
   mercado: string;
   partidoId: string;
   onPick: (sel: Seleccion) => void;
+  toneOverride?: "red" | "blue" | undefined;
 }) {
+  if (!opt) return null;
+
+  const handleClick = () =>
+    onPick({
+      partidoId,
+      mercado,
+      opcion: opt.label,
+      cuota: opt.price,
+      etiqueta: `${mercado} ${opt.label}`,
+      timestamp: Date.now(),
+    });
+
+  const tone = toneOverride || opt.tone;
+  const toneClass =
+    tone === "red" ? "tone-red" : tone === "blue" ? "tone-blue" : "tone-neutral";
+
   return (
     <>
-      <div className="market-col">
-        <div className="mkt-title">{title}</div>
-        <div className="pill-col">
-          {opts.map((opt, idx) => (
-            <Pill
-              key={idx}
-              option={opt}
-              mercado={mercado}
-              partidoId={partidoId}
-              onPick={onPick}
-            />
-          ))}
-        </div>
-      </div>
+      <button type="button" className={`odds-pill ${toneClass}`} onClick={handleClick}>
+        <div>{opt.label}</div>
+        <div>{opt.price}</div>
+      </button>
 
       <style jsx>{`
-        .market-col {
-          display: grid;
-          row-gap: 8px;
-          min-width: 0;
-        }
-
-        .mkt-title {
-          font-size: 0.7rem;
+        .odds-pill {
+          width: 100%;
+          border-radius: 8px;
+          border: 1px solid #d1d5db;
+          padding: 10px 12px;
           font-weight: 600;
-          color: #6b7280;
-          text-transform: uppercase;
-          letter-spacing: 0.03em;
+          display: flex;
+          justify-content: space-between;
+          cursor: pointer;
+          box-shadow: 0 2px 0 #cfcfcf;
+          transition: 0.15s ease;
         }
-
-        .pill-col {
-          display: grid;
-          row-gap: 8px;
+        .tone-red {
+          background: #8b0000;
+          color: #e0e0ff;
         }
-
-        @media (max-width: 700px) {
-          .market-col {
-            border-top: 1px solid #e5e7eb;
-            padding-top: 12px;
-          }
+        .tone-blue {
+          background: #002f9e;
+          color: #e0e0ff;
+        }
+        .tone-neutral {
+          background: #f9fafb;
+          color: #4f46e5;
         }
       `}</style>
     </>

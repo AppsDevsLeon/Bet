@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
-import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
-// import Language from "./Language";        // ⛔️ QUITADO
 import NavItem from "./NavItem";
-import { useI18n } from "@/lib/i18n/I18nProvider";   // ✅ se mantiene
+import { useI18n } from "@/lib/i18n/I18nProvider";  
 import { useWallet } from "@/hooks/useWallet";
 import { useRouter } from "next/navigation";
-import SideNav from './SideNav';
+
 
 const DASHBOARD_PATH = "/dashboard";
 

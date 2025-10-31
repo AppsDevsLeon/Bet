@@ -4,10 +4,8 @@ import React, { useState, useCallback, useMemo } from "react";
 
 import SideNav from "@/components/Shared/SideNav";
 import LeagueHeader from "@/components/betting/LeagueHeader";
-
 import GameCardLive from "@/components/betting/GameCardLive";
 import GameCardScheduled from "@/components/betting/GameCardScheduled";
-
 import PropsGrid from "@/components/betting/PropsGrid";
 import BetTicket from "@/components/betting/BetTicket";
 import GameDetailView from "@/components/betting/GameDetail";
@@ -18,198 +16,329 @@ import type {
   PropCard,
 } from "@/components/betting/types";
 
-/* ========== DATA DEMO PARTIDOS ========== */
-const GAMES: GameCardData[] = [
-  {
-    id: "rm-bar",
-    isLive: true,
-    liveLabel: "LIVE",
-    liveClock: "2H - 69:21",
-    vol: "$2.35m Vol.",
-    home: {
-      abbr: "BAR",
-      name: "Barcelona",
-      record: "6-1-1",
-      rankOrSeed: "1",
-      color: "#7a003c",
-    },
-    away: {
-      abbr: "REA",
-      name: "Real Madrid",
-      record: "8-0-1",
-      rankOrSeed: "2",
-      color: "#d4af00",
-    },
-    moneyline: [
-      { label: "REA", price: "77¢", tone: "yellow" },
-      { label: "DRAW", price: "20¢" },
-      { label: "BAR", price: "6¢", tone: "red" },
-    ],
-    spread: [
-      { label: "REA -0.5", price: "97¢" },
-      { label: "BAR +0.5", price: "79¢" },
-    ],
-    total: [
-      { label: "O 3.5", price: "98¢" },
-      { label: "U 3.5", price: "24¢" },
-    ],
-    marketsCount: "6",
-  },
+import { SPORT_CONFIG } from "@/lib/sportConfig";
 
-  {
-    id: "osa-cel",
-    isLive: false,
-    kickoff: "11:30 AM",
-    vol: "$37.83k Vol.",
-    home: {
-      abbr: "OSA",
-      name: "Osasuna",
-      record: "3-1-5",
-      color: "#7a1a1a",
-    },
-    away: {
-      abbr: "CEL",
-      name: "Celta Vigo",
-      record: "0-7-2",
-      color: "#1e3a8a",
-    },
-    moneyline: [
-      { label: "OSA", price: "40¢", tone: "red" },
-      { label: "DRAW", price: "31¢" },
-      { label: "CEL", price: "30¢", tone: "blue" },
-    ],
-    spread: [
-      { label: "OSA -0.5", price: "42¢" },
-      { label: "CEL +0.5", price: "62¢" },
-    ],
-    total: [
-      { label: "O 2.5", price: "45¢" },
-      { label: "U 2.5", price: "57¢" },
-    ],
-    marketsCount: "6",
-  },
-
-  {
-    id: "bet-atm",
-    isLive: false,
-    kickoff: "2:00 PM",
-    vol: "$3.70k Vol.",
-    home: {
-      abbr: "BET",
-      name: "Real Betis",
-      record: "4-4-1",
-      color: "#0d6b3a",
-    },
-    away: {
-      abbr: "MAD",
-      name: "Atletico Madrid",
-      record: "4-4-1",
-      color: "#c6424a",
-    },
-    moneyline: [
-      { label: "BET", price: "30¢", tone: "green" },
-      { label: "DRAW", price: "27¢" },
-      { label: "MAD", price: "45¢", tone: "red" },
-    ],
-    spread: [
-      { label: "BET +0.5", price: "57¢" },
-      { label: "MAD -0.5", price: "46¢" },
-    ],
-    total: [
-      { label: "O 2.5", price: "56¢" },
-      { label: "U 2.5", price: "48¢" },
-    ],
-    marketsCount: "6",
-  },
-];
-
-/* ========== DATA DEMO PROPS ========== */
-const PROPS_DATA: PropCard[] = [
-  {
-    id: "nfc-champ",
-    icon: "🏈",
-    title: "NFC Champion",
-    volume: "$1m Vol.",
-    rows: [
+/* ============ MOCK DATA (luego conectas API) ============ */
+function getGamesForSport(sportSlug: string): GameCardData[] {
+  if (sportSlug === "soccer") {
+    return [
       {
-        teamOrName: "Detroit",
-        pct: "24%",
-        yesPrice: "Yes 24¢",
-        noPrice: "No 76¢",
+        id: "rm-bar",
+        isLive: true,
+        liveLabel: "LIVE",
+        liveClock: "2H - 69:21",
+        vol: "$2.35m Vol.",
+        home: {
+          abbr: "BAR",
+          name: "Barcelona",
+          record: "6-1-1",
+          rankOrSeed: "1",
+          color: "#7a003c",
+        },
+        away: {
+          abbr: "REA",
+          name: "Real Madrid",
+          record: "8-0-1",
+          rankOrSeed: "2",
+          color: "#d4af00",
+        },
+        moneyline: [
+          { label: "REA", price: "77¢", tone: "yellow" },
+          { label: "DRAW", price: "20¢" },
+          { label: "BAR", price: "6¢", tone: "red" },
+        ],
+        spread: [
+          { label: "REA -0.5", price: "97¢" },
+          { label: "BAR +0.5", price: "79¢" },
+        ],
+        total: [
+          { label: "O 3.5", price: "98¢" },
+          { label: "U 3.5", price: "24¢" },
+        ],
+        marketsCount: "6",
       },
       {
-        teamOrName: "Green Bay",
-        pct: "20%",
-        yesPrice: "Yes 20¢",
-        noPrice: "No 80¢",
+        id: "osa-cel",
+        isLive: false,
+        kickoff: "11:30 AM",
+        vol: "$37.83k Vol.",
+        home: {
+          abbr: "OSA",
+          name: "Osasuna",
+          record: "3-1-5",
+          color: "#7a1a1a",
+        },
+        away: {
+          abbr: "CEL",
+          name: "Celta Vigo",
+          record: "0-7-2",
+          color: "#1e3a8a",
+        },
+        moneyline: [
+          { label: "OSA", price: "40¢", tone: "red" },
+          { label: "DRAW", price: "31¢" },
+          { label: "CEL", price: "30¢", tone: "blue" },
+        ],
+        spread: [
+          { label: "OSA -0.5", price: "42¢" },
+          { label: "CEL +0.5", price: "62¢" },
+        ],
+        total: [
+          { label: "O 2.5", price: "45¢" },
+          { label: "U 2.5", price: "57¢" },
+        ],
+        marketsCount: "6",
       },
-    ],
-  },
-  {
-    id: "sb-halftime",
-    icon: "🎤",
-    title: "Who will perform at Super Bowl halftime show?",
-    volume: "$302k Vol.",
-    rows: [
-      {
-        teamOrName: "Bad Bunny",
-        pct: "92%",
-        yesPrice: "Yes 92¢",
-        noPrice: "No 8¢",
-      },
-      {
-        teamOrName: "Cardi B",
-        pct: "53%",
-        yesPrice: "Yes 53¢",
-        noPrice: "No 47¢",
-      },
-    ],
-  },
-];
+    ];
+  }
 
-/* ========== PAGE COMPONENT ========== */
-export default function LeaguePage() {
-  // todas las selecciones que el user clickeó
+  if (sportSlug === "nfl") {
+    return [
+      {
+        id: "phi-dal-week10-snf",
+        isLive: false,
+        kickoff: "8:25 PM",
+        vol: "$1.2m Vol.",
+        home: {
+          abbr: "DAL",
+          name: "Dallas Cowboys",
+          record: "5-2",
+          rankOrSeed: "#3 NFC",
+          color: "#1f2937", // gris oscuro tipo Cowboys
+        },
+        away: {
+          abbr: "PHI",
+          name: "Philadelphia Eagles",
+          record: "6-1",
+          rankOrSeed: "#1 NFC",
+          color: "#065f46", // verde Eagles
+        },
+        moneyline: [
+          { label: "PHI", price: "42¢", tone: "green" }, // visitante
+          { label: "DAL", price: "58¢", tone: "blue" },  // local
+        ],
+        spread: [
+          { label: "DAL -3.5", price: "51¢" },
+          { label: "PHI +3.5", price: "49¢" },
+        ],
+        total: [
+          { label: "O 47.5", price: "55¢" },
+          { label: "U 47.5", price: "45¢" },
+        ],
+        marketsCount: "8",
+        // opcional: puedes leer esto más adelante en GameDetailView
+        stadium: "AT&T Stadium",
+        week: "Week 10",
+        broadcast: "SNF",
+      },
+
+      {
+        id: "mia-buf-week10-afce",
+        isLive: false,
+        kickoff: "1:00 PM",
+        vol: "$823k Vol.",
+        home: {
+          abbr: "BUF",
+          name: "Buffalo Bills",
+          record: "5-3",
+          rankOrSeed: "#2 AFC East",
+          color: "#003087", // azul Bills
+        },
+        away: {
+          abbr: "MIA",
+          name: "Miami Dolphins",
+          record: "6-2",
+          rankOrSeed: "#1 AFC East",
+          color: "#008E97", // aqua Dolphins
+        },
+        moneyline: [
+          { label: "MIA", price: "48¢", tone: "blue" }, // visitante slight dog
+          { label: "BUF", price: "52¢", tone: "red" },  // local slight fav
+        ],
+        spread: [
+          { label: "BUF -1.5", price: "54¢" },
+          { label: "MIA +1.5", price: "46¢" },
+        ],
+        total: [
+          { label: "O 51.5", price: "58¢" },
+          { label: "U 51.5", price: "42¢" },
+        ],
+        marketsCount: "12",
+        stadium: "Highmark Stadium",
+        week: "Week 10",
+        broadcast: "CBS",
+      },
+
+      {
+        id: "kc-sf-week10-gotw",
+        isLive: true,
+        liveLabel: "LIVE",
+        liveClock: "Q3 - 07:12",
+        vol: "$2.05m Vol.",
+        home: {
+          abbr: "SF",
+          name: "San Francisco 49ers",
+          record: "7-1",
+          rankOrSeed: "#1 NFC West",
+          color: "#AA0000", // rojo Niners
+        },
+        away: {
+          abbr: "KC",
+          name: "Kansas City Chiefs",
+          record: "7-1",
+          rankOrSeed: "#1 AFC West",
+          color: "#B20000", // rojo Chiefs (puedes afinar)
+        },
+        // en vivo normalmente no mostramos DRAW en NFL,
+        // solo moneyline de cada lado
+        moneyline: [
+          { label: "KC", price: "44¢", tone: "red" },
+          { label: "SF", price: "56¢", tone: "blue" },
+        ],
+        spread: [
+          { label: "SF -2.5", price: "53¢" },
+          { label: "KC +2.5", price: "47¢" },
+        ],
+        total: [
+          { label: "O 49.5", price: "50¢" },
+          { label: "U 49.5", price: "50¢" },
+        ],
+        marketsCount: "15",
+        stadium: "Levi's Stadium",
+        week: "Week 10",
+        broadcast: "FOX",
+      },
+    ];
+  }
+
+
+  // fallback genérico si no reconoce sportSlug
+  return [
+    {
+      id: "generic-a",
+      isLive: false,
+      kickoff: "10:00 AM",
+      vol: "$12.3k Vol.",
+      home: {
+        abbr: "HOM",
+        name: "Home Team",
+        record: "—",
+        color: "#0d6b3a",
+      },
+      away: {
+        abbr: "AWY",
+        name: "Away Team",
+        record: "—",
+        color: "#c6424a",
+      },
+      moneyline: [
+        { label: "HOM", price: "60¢", tone: "green" },
+        { label: "AWY", price: "40¢", tone: "red" },
+      ],
+      spread: [
+        { label: "HOM -1.5", price: "55¢" },
+        { label: "AWY +1.5", price: "45¢" },
+      ],
+      total: [
+        { label: "O 2.5", price: "52¢" },
+        { label: "U 2.5", price: "48¢" },
+      ],
+      marketsCount: "4",
+    },
+  ];
+}
+
+function getPropsForSport(_sportSlug: string): PropCard[] {
+  return [
+    {
+      id: "nfc-champ",
+      icon: "🏈",
+      title: "NFC Champion",
+      volume: "$1m Vol.",
+      rows: [
+        {
+          teamOrName: "Detroit",
+          pct: "24%",
+          yesPrice: "Yes 24¢",
+          noPrice: "No 76¢",
+        },
+        {
+          teamOrName: "Green Bay",
+          pct: "20%",
+          yesPrice: "Yes 20¢",
+          noPrice: "No 80¢",
+        },
+      ],
+    },
+    {
+      id: "sb-halftime",
+      icon: "🎤",
+      title: "Who will perform at Super Bowl halftime show?",
+      volume: "$302k Vol.",
+      rows: [
+        {
+          teamOrName: "Bad Bunny",
+          pct: "92%",
+          yesPrice: "Yes 92¢",
+          noPrice: "No 8¢",
+        },
+        {
+          teamOrName: "Cardi B",
+          pct: "53%",
+          yesPrice: "Yes 53¢",
+          noPrice: "No 47¢",
+        },
+      ],
+    },
+  ];
+}
+
+/* ============ COMPONENTE PRINCIPAL EMBEBIBLE ============ */
+export default function NFLSection({
+  sportSlug = "nfl",
+}: {
+  sportSlug?: string;
+}) {
+  // 👉 ya NO usamos params. Home decide qué liga pasa.
+  const meta =
+    SPORT_CONFIG[sportSlug] ?? {
+      leagueName: sportSlug.toUpperCase(),
+      leagueIcon: "🏟",
+      weekLabel: "This Week",
+      dayLabel: "Today",
+    };
+
+  const GAMES = getGamesForSport(sportSlug);
+  const PROPS_DATA = getPropsForSport(sportSlug);
+
+  // state
   const [selecciones, setSelecciones] = useState<Seleccion[]>([]);
-
-  // selección actualmente mostrada en el ticket derecho
   const [currentSel, setCurrentSel] = useState<Seleccion | null>(null);
 
-  // "games" | "props"
   const [activeTab, setActiveTab] = useState<"games" | "props">("games");
-
-  // "games" | "props" | "detail"
   const [viewMode, setViewMode] = useState<"games" | "props" | "detail">(
     "games"
   );
-
-  // partido que abrimos en detalle
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 
-  // switch azul del header
   const [showSpreads, setShowSpreads] = useState<boolean>(true);
 
-  /* handlers */
-
-  // cuando hago click en una pill de apuesta
+  // handlers
   const handlePick = useCallback((sel: Seleccion) => {
     setSelecciones((prev) => [...prev, sel]);
     setCurrentSel(sel);
   }, []);
 
-  // abrir detalle
   const handleOpenGame = useCallback((gameId: string) => {
     setSelectedGameId(gameId);
     setViewMode("detail");
   }, []);
 
-  // volver desde el detalle
   const handleBackFromDetail = useCallback(() => {
     setViewMode("games");
     setSelectedGameId(null);
   }, []);
 
-  // cambio de tab (Games / Props)
   const handleTabChange = useCallback((tab: "games" | "props") => {
     setActiveTab(tab);
     if (tab === "games") {
@@ -220,11 +349,10 @@ export default function LeaguePage() {
     }
   }, []);
 
-  // partido seleccionado para el detail
   const gameSelected = useMemo(() => {
     if (!selectedGameId) return null;
     return GAMES.find((g) => g.id === selectedGameId) ?? null;
-  }, [selectedGameId]);
+  }, [selectedGameId, GAMES]);
 
   return (
     <>
@@ -234,27 +362,23 @@ export default function LeaguePage() {
           <SideNav />
         </aside>
 
-        {/* CENTRO */}
+        {/* CONTENIDO CENTRAL */}
         <main className="main">
-          {/* HEADER tipo NFL/NBA */}
           <LeagueHeader
-            leagueName="NFL"
-            leagueIcon={"🏈"} // cámbialo por logo svg si quieres
+            leagueName={meta.leagueName}
+            leagueIcon={meta.leagueIcon}
             activeTab={activeTab}
             onTabChange={handleTabChange}
             showSpreads={showSpreads}
             onToggleSpreads={(next) => setShowSpreads(next)}
-            weekLabel="Week 8"
+            weekLabel={meta.weekLabel ?? ""}
             onWeekClick={() => {
               console.log("abrir dropdown semanas");
             }}
-            dayLabel="Sun, October 26"
-            // en fútbol-style cards no usamos las columnas MONEYLINE/SPREAD/TOTAL arriba,
-            // así que las ocultamos
+            dayLabel={meta.dayLabel ?? ""}
             showColumns={false}
           />
 
-          {/* CONTENIDO PRINCIPAL */}
           {viewMode === "games" && (
             <section className="games-stack">
               {GAMES.map((match) =>
@@ -271,9 +395,11 @@ export default function LeaguePage() {
                     game={match}
                     onPick={handlePick}
                     onOpenGame={handleOpenGame}
+                    gameDateLabel={match.dateLabel ?? match.week ?? "Upcoming"}
                   />
                 )
               )}
+
             </section>
           )}
 
@@ -288,13 +414,13 @@ export default function LeaguePage() {
           )}
         </main>
 
-        {/* PANEL DERECHO (Ticket Buy/Sell) */}
+        {/* TICKET DERECHA */}
         <aside className="right">
           <BetTicket currentSel={currentSel} />
         </aside>
       </div>
 
-      {/* LAYOUT STYLES */}
+      {/* estilos locales */}
       <style jsx>{`
         .layout-grid {
           display: grid;
@@ -362,7 +488,7 @@ export default function LeaguePage() {
         }
       `}</style>
 
-      {/* THEME GLOBAL light */}
+      {/* variables globales */}
       <style jsx global>{`
         :root {
           --bg: #ffffff;

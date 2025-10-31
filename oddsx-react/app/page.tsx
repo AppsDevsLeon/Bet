@@ -8,10 +8,11 @@ import MiddleSlider from "@/components/Pages/Home/MiddleSlider";
 import UpComingEvents from "@/components/Pages/Home/UpComingEvents";
 import Dashboard from "@/components/Pages/Dashboard/Dashboard";
 import Inicio from '@/app/(common)/home/Home'
+import  Banner from '@/components/banner/FifaPromoBanner'
 import LiveEventsTicker from "@/components/reusable/LiveEventsTicker";
 import LiveInPlay from "@/components/Pages/LiveInPlay/LiveInPlay";
 import UpcomingByDate from "@/components/Pages/UpcomingByDate/UpcomingByDate";
-import NFL from "@/components/Pages/AmericanFootball/UpCmingAmericanFootball";
+import NFLSection from "@/components/Pages/AmericanFootball/UpCmingAmericanFootball";
 
 
 export default function Home() {
@@ -22,15 +23,10 @@ export default function Home() {
       {/* Franja de partidos debajo del header 
        <LiveEventsTicker fixedTop={false} belowHeader headerOffset={100} />*/}
       <Inicio />
+      <Banner/>
       <HeroSlider />
-      <LiveMatches />
-      <LiveMatches />
-      <MiddleSlider />
-      <UpComingEvents />
-      <NFL/>
+ 
       <main className="p-6 space-y-10">
-        {/*<LiveInPlay />
-      <UpcomingByDate />*/}
       </main>
 
       {/*

@@ -1,11 +1,10 @@
-import TopBoxing from '@/components/Pages/Boxing/TopBoxing';
-import UpCmingBoxing from '@/components/Pages/Boxing/UpCmingBoxing';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
-        <>         
-            <TopBoxing />
-            <UpCmingBoxing />
+        <>
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

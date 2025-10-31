@@ -1,13 +1,10 @@
-import CricketLive from '@/components/Pages/Cricket/CricketLive';
-import TopCricket from '@/components/Pages/Cricket/TopCricket';
-import UpCmingCricket from '@/components/Pages/Cricket/UpCmingCricket';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
-            <TopCricket />
-            <CricketLive />
-            <UpCmingCricket />
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

@@ -1,12 +1,10 @@
-
-import TopDarts from '@/components/Pages/Darts/TopDarts';
-import UpCmingDarts from '@/components/Pages/Darts/UpCmingDarts';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
-            <TopDarts />
-            <UpCmingDarts />
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

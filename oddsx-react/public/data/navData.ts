@@ -56,15 +56,23 @@ export const otherSportsData = (t: TFunc): NavCard[] => [
 // MENÚ PRINCIPAL (6 items)
 export const naviTemData = (t: TFunc) => [
   { id: 112232, linkText: t("Nav.home", "Home"),               href: "/" },
-  { id: 120341, linkText: t("Nav.live_betting", "Live Betting"), href: "/floorball" },
+   // 👇 Nuevo: Mundial / World Cup
+  { id: 151273, linkText: t("Nav.world_cup", "World Cup"),       href: "/world-cup" },
   { id: 151272, linkText: t("Nav.sports", "Sports"),           href: "/soccer" },
-  { id: 155534, linkText: t("Nav.esports", "eSports"),         href: "/ecricket" },
-  { id: 138128, linkText: t("Nav.racing", "Racing"),           href: "/cycling" },
+
+   // sección tipo noticias / intención de trading narrativo
+  { id: 210001, linkText: t("Nav.politics", "Politics"),           href: "/politics" },
+  { id: 210002, linkText: t("Nav.finance", "Finance"),             href: "/finance" },
+  { id: 210003, linkText: t("Nav.crypto", "Crypto"),               href: "/crypto" },
+  { id: 210004, linkText: t("Nav.geopolitics", "Geopolitics"),     href: "/geopolitics" },
+  { id: 210007, linkText: t("Nav.culture", "Culture"),             href: "/culture" },
+  { id: 210009, linkText: t("Nav.economy", "Economy"),             href: "/economy" },
+  { id: 210010, linkText: t("Nav.elections", "Elections"),         href: "/elections" },
   { id: 122880, linkText: t("Nav.promotions", "Promotions"),   href: "/promotions" },
 
-  
-  // 👇 NUEVO
-  { id: 99001,  linkText: t("Nav.dashboard", "Dashboard"),     href: "/dashboard" },
+
+
+
 ];
 
 
@@ -86,3 +94,30 @@ export const marketsCategories = (t: TFunc): NavItem[] => [
   { id: 14, linkText: t("Markets.elections", "Elections"),     href: "/markets?cat=Elections" },
   { id: 15, linkText: t("Markets.mentions", "Mentions"),       href: "/markets?cat=Mentions" },
 ];
+
+
+// categorías específicas de política / gobierno / geopolítica
+export const politicsCategories = (t: TFunc): NavItem[] => [
+  { id: 1,  linkText: t("Politics.all", "All"),                     href: "/markets/politics?cat=all" },
+  { id: 2,  linkText: t("Politics.trump", "Trump"),                 href: "/markets/politics?cat=trump" },
+  { id: 3,  linkText: t("Politics.us_election", "US Election"),     href: "/markets/politics?cat=us-election" },
+  { id: 4,  linkText: t("Politics.congress", "Congress"),           href: "/markets/politics?cat=congress" },
+  { id: 5,  linkText: t("Politics.senate", "Senate"),               href: "/markets/politics?cat=senate" },
+  { id: 6,  linkText: t("Politics.white_house", "Cabinet / White House"), href: "/markets/politics?cat=cabinet" },
+  { id: 7,  linkText: t("Politics.courts", "Courts"),               href: "/markets/politics?cat=courts" },
+  { id: 8,  linkText: t("Politics.h1b", "H-1B / Immigration"),      href: "/markets/politics?cat=h1b" },
+  { id: 9,  linkText: t("Politics.trade", "Trade / Tariffs"),       href: "/markets/politics?cat=trade" },
+  { id: 10, linkText: t("Politics.gov_shutdown", "Gov Shutdown"),   href: "/markets/politics?cat=shutdown" },
+  { id: 11, linkText: t("Politics.global_elections", "Global Elections"), href: "/markets/politics?cat=global-elections" },
+  { id: 12, linkText: t("Politics.geopolitics", "Geopolitics"),     href: "/markets/politics?cat=geopolitics" },
+  { id: 13, linkText: t("Politics.ukraine", "Ukraine"),             href: "/markets/politics?cat=ukraine" },
+  { id: 14, linkText: t("Politics.gaza", "Gaza / Israel"),          href: "/markets/politics?cat=gaza" },
+  { id: 15, linkText: t("Politics.ven", "Venezuela"),               href: "/markets/politics?cat=venezuela" },
+  { id: 16, linkText: t("Politics.asia", "South Korea"),            href: "/markets/politics?cat=south-korea" },
+  { id: 17, linkText: t("Politics.eu", "Romania / EU"),             href: "/markets/politics?cat=romania" },
+  { id: 18, linkText: t("Politics.tech_conflict", "Trump vs Elon"), href: "/markets/politics?cat=trump-vs-elon" },
+  { id: 19, linkText: t("Politics.scandal", "Epstein / Scandals"),  href: "/markets/politics?cat=scandals" },
+  { id: 20, linkText: t("Politics.local", "NYC Mayor"),             href: "/markets/politics?cat=nyc-mayor" },
+];
+
+

@@ -1,11 +1,10 @@
-
-import TopAussieRules from '@/components/Pages/AussieRules/TopAussieRules';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
 
-            <TopAussieRules />
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }

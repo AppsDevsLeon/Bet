@@ -9,11 +9,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 // Iconos
-import {
-  IconBallFootball,
-  IconBell,
-  IconStar,
-} from "@tabler/icons-react";
+import { IconBallFootball, IconBell, IconStar } from "@tabler/icons-react";
 
 /* ============================
    Tipos
@@ -37,7 +33,7 @@ type MatchItem = {
 };
 
 /* ============================
-   Mock data
+   Mock data SOLO FUTBOL
    ============================ */
 const MATCHES_JSON: MatchItem[] = [
   {
@@ -54,19 +50,6 @@ const MATCHES_JSON: MatchItem[] = [
     moneyline: { home: 1.87, draw: 3.4, away: 2.1 },
   },
   {
-    id: "epl-mci-ars-002",
-    league: "Premier League",
-    startISO: "2025-02-02T02:00:00Z",
-    live: false,
-    minute: undefined,
-    referee: "Michael Oliver",
-    home: { name: "Man City", icon: "/images/icon/mancity.png" },
-    away: { name: "Arsenal", icon: "/images/icon/arsenal.png" },
-    scoreHome: 0,
-    scoreAway: 0,
-    moneyline: { home: 1.95, draw: 3.6, away: 2.25 },
-  },
-  {
     id: "laliga-rma-fcb-003",
     league: "LaLiga",
     startISO: "2025-02-02T20:00:00Z",
@@ -78,19 +61,6 @@ const MATCHES_JSON: MatchItem[] = [
     scoreHome: 2,
     scoreAway: 2,
     moneyline: { home: 2.05, draw: 3.55, away: 2.05 },
-  },
-  {
-    id: "seriea-juv-int-004",
-    league: "Serie A",
-    startISO: "2025-02-03T19:30:00Z",
-    live: false,
-    minute: undefined,
-    referee: "Daniele Orsato",
-    home: { name: "Juventus", icon: "/images/icon/juventus.png" },
-    away: { name: "Inter", icon: "/images/icon/inter.png" },
-    scoreHome: 0,
-    scoreAway: 0,
-    moneyline: { home: 2.2, draw: 3.2, away: 2.1 },
   },
   {
     id: "ligue1-psg-oly-005",
@@ -105,19 +75,21 @@ const MATCHES_JSON: MatchItem[] = [
     scoreAway: 0,
     moneyline: { home: 1.65, draw: 3.9, away: 3.2 },
   },
-  {
-    id: "erediv-aja-psv-006",
-    league: "Eredivisie",
-    startISO: "2025-02-04T21:00:00Z",
-    live: false,
-    minute: undefined,
-    referee: "Danny Makkelie",
-    home: { name: "Ajax", icon: "/images/icon/ajax.png" },
-    away: { name: "PSV", icon: "/images/icon/psv.png" },
-    scoreHome: 0,
-    scoreAway: 0,
-    moneyline: { home: 2.4, draw: 3.6, away: 1.95 },
-  },
+
+  // Ejemplo NO en vivo (lo dejamos comentado para referencia)
+  // {
+  //   id: "epl-mci-ars-002",
+  //   league: "Premier League",
+  //   startISO: "2025-02-02T02:00:00Z",
+  //   live: false,
+  //   minute: undefined,
+  //   referee: "Michael Oliver",
+  //   home: { name: "Man City", icon: "/images/icon/mancity.png" },
+  //   away: { name: "Arsenal", icon: "/images/icon/arsenal.png" },
+  //   scoreHome: 0,
+  //   scoreAway: 0,
+  //   moneyline: { home: 1.95, draw: 3.6, away: 2.25 },
+  // },
 ];
 
 /* ============================
@@ -174,7 +146,7 @@ function MatchSlideCard({
         </div>
       </div>
 
-      {/* MAIN (body + footer abajo fijo) */}
+      {/* MAIN */}
       <div className="mc-main">
         {/* BODY */}
         <div className="mc-body">
@@ -230,7 +202,7 @@ function MatchSlideCard({
           </div>
         </div>
 
-        {/* FOOTER */}
+        {/* FOOTER (odds + CTA) */}
         <div className="mc-footer">
           <div className="odds-group">
             {odds.map((o) => (
@@ -268,7 +240,12 @@ function MatchSlideCard({
    Slider principal
    ============================ */
 export default function TopSlider() {
-  const matches = useMemo(() => MATCHES_JSON, []);
+  // ⚽ solo juegos en vivo
+  const matches = useMemo(
+    () => MATCHES_JSON.filter((m) => m.live === true),
+    []
+  );
+
   const [selected, setSelected] = useState<Record<string, OutcomeKey | null>>(
     {}
   );
@@ -301,23 +278,20 @@ export default function TopSlider() {
                     <div className="live-playing">
                       <Swiper
                         className="slider_hero"
-
-                        /* 👇 autoplay cada 2 segundos */
                         loop={true}
                         speed={400}
                         autoplay={{
                           delay: 2000,
                           disableOnInteraction: false,
                         }}
-
                         slidesPerView={"auto"}
                         centeredSlides={false}
                         modules={[Autoplay]}
                         allowTouchMove
                         breakpoints={{
-                          0:    { slidesPerView: "auto", spaceBetween: 12 },
-                          480:  { slidesPerView: "auto", spaceBetween: 12 },
-                          768:  { slidesPerView: "auto", spaceBetween: 14 },
+                          0: { slidesPerView: "auto", spaceBetween: 12 },
+                          480: { slidesPerView: "auto", spaceBetween: 12 },
+                          768: { slidesPerView: "auto", spaceBetween: 14 },
                           1200: { slidesPerView: "auto", spaceBetween: 16 },
                         }}
                       >

@@ -1,11 +1,10 @@
-import TopWrestling from '@/components/Pages/Wrestling/TopWrestling';
-
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
 export default function page() {
     return (
         <>
-      
-            <TopWrestling />
+
+                 <NFLSection sportSlug="nfl" />
         </>
     )
 }
