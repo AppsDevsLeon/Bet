@@ -1,13 +1,15 @@
 
-import FifaVoltaLive from '@/components/Pages/FifaVolta/FifaVoltaLive';
-import TopFifaVolta from '@/components/Pages/FifaVolta/TopFifaVolta';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-  
-            <TopFifaVolta />
-            <FifaVoltaLive />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="fifa-volta" />
+        </div>
+      </div>
+
+    </>
+  );
 }

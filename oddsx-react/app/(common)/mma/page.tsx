@@ -1,13 +1,15 @@
 
-import TopMma from '@/components/Pages/Mma/TopMma';
-import UpCmingMma from '@/components/Pages/Mma/UpCmingMma';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="mma" />
+        </div>
+      </div>
 
-            <TopMma />
-            <UpCmingMma />
-        </>
-    )
+    </>
+  );
 }

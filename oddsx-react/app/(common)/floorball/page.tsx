@@ -1,15 +1,14 @@
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-import TopFloorball from '@/components/Pages/Floorball/TopFloorball';
-import FloorballLive from '@/components/Pages/Floorball/FloorballLive';
-import UpCmingFloorball from '@/components/Pages/Floorball/UpCmingFloorball';
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="floorball" />
+        </div>
+      </div>
 
-export default function page() {
-    return (
-        <>
-
-            <TopFloorball />
-            <FloorballLive />
-            <UpCmingFloorball />
-        </>
-    )
+    </>
+  );
 }

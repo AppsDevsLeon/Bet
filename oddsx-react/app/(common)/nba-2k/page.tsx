@@ -1,13 +1,15 @@
 
-import TopNba2k from '@/components/Pages/Nba2k/TopNba2k';
-import UpCmingNba2k from '@/components/Pages/Nba2k/UpCmingNba2k';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-    
-            <TopNba2k />
-            <UpCmingNba2k />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="nba2k" />
+        </div>
+      </div>
+
+    </>
+  );
 }

@@ -1,11 +1,14 @@
-import TopSquash from '@/components/Pages/squash/TopSquash';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="squash" />
+        </div>
+      </div>
 
-export default function page() {
-    return (
-        <>
-       
-            <TopSquash />
-        </>
-    )
+    </>
+  );
 }

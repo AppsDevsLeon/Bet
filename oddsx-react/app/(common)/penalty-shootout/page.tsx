@@ -1,13 +1,15 @@
 
-import TopPenaltyShootout from '@/components/Pages/PenaltyShootout/TopPenaltyShootout';
-import UpCmingPenaltyShootout from '@/components/Pages/PenaltyShootout/UpCmingPenaltyShootout';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-   
-            <TopPenaltyShootout />
-            <UpCmingPenaltyShootout />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="penalty-shootout" />
+        </div>
+      </div>
+
+    </>
+  );
 }

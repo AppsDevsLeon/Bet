@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Pill from "./Pill";
-import type { GameCardData, Seleccion } from "./types";
+import Pill from "@/components/betting/Pill";
+import type { GameCardData, Seleccion } from "@/components/betting/types";
 
 export default function GameDetailView({
   game,
@@ -13,9 +13,10 @@ export default function GameDetailView({
   onBack: () => void;
   onPick: (sel: Seleccion) => void;
 }) {
-  // helpers para los colores
-  const homeColor = game.home.color || "#1e3a8a";
-  const awayColor = game.away.color || "#1e3a8a";
+  // paleta (respeta tu azul)
+  const BRAND_BLUE = "#1e3a8a";
+  const homeColor = game.home.color || BRAND_BLUE;
+  const awayColor = game.away.color || BRAND_BLUE;
 
   return (
     <>
@@ -132,10 +133,9 @@ export default function GameDetailView({
 
       <style jsx>{`
         .detail-wrap {
-          border: 1px solid #e5e7eb;
-          border-radius: 12px;
-          background: #fff;
-          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.04);
+          border: none;
+          border-radius: 0; /* sin esquinas marcadas para look flat */
+          background: #fff; /* fondo limpio */
           padding: 16px;
           display: grid;
           row-gap: 20px;
@@ -147,11 +147,15 @@ export default function GameDetailView({
           gap: 8px;
           background: transparent;
           border: 0;
-          color: #111827;
-          font-size: 0.9rem;
-          font-weight: 500;
+          color: ${BRAND_BLUE};
+          font-size: 0.95rem;
+          font-weight: 600;
           cursor: pointer;
           width: fit-content;
+          padding: 4px 0;
+        }
+        .back-btn:hover .txt {
+          text-decoration: underline;
         }
         .arr {
           font-size: 1rem;
@@ -183,15 +187,14 @@ export default function GameDetailView({
           font-weight: 700;
           line-height: 36px;
           text-align: center;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
         .meta {
           display: grid;
           row-gap: 2px;
         }
         .name {
-          font-weight: 600;
-          color: #111827;
+          font-weight: 700;
+          color: #0f172a;
         }
         .rec {
           font-size: 0.8rem;
@@ -210,19 +213,18 @@ export default function GameDetailView({
         }
 
         .live-line {
-          font-weight: 600;
-          color: #c6424a;
+          font-weight: 700;
+          color: #b91c1c; /* rojo sobrio para LIVE */
         }
         .live-flag {
-          font-weight: 700;
-          color: #c6424a;
+          font-weight: 800;
         }
         .clock {
-          color: #111827;
+          color: #0f172a;
         }
         .kick {
-          font-weight: 600;
-          color: #111827;
+          font-weight: 700;
+          color: #0f172a;
         }
         .vol {
           color: #6b7280;
@@ -231,24 +233,26 @@ export default function GameDetailView({
 
         .markets-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(min(220px,100%),1fr));
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(min(220px, 100%), 1fr)
+          );
           gap: 16px;
         }
 
         .market-block {
-          border: 1px solid #e5e7eb;
-          border-radius: 10px;
-          background: #fff;
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.03);
-          padding: 12px;
+          border: none;       /* sin bordes */
+          border-radius: 0;   /* plano */
+          background: #fff;   /* simple */
+          padding: 8px 0;     /* respiración ligera */
           display: grid;
-          row-gap: 12px;
+          row-gap: 8px;
         }
 
         .market-label {
           font-size: 0.8rem;
-          font-weight: 600;
-          color: #6b7280;
+          font-weight: 700;
+          color: ${BRAND_BLUE};
           text-transform: uppercase;
           letter-spacing: 0.03em;
         }
@@ -261,6 +265,7 @@ export default function GameDetailView({
         @media (max-width: 600px) {
           .status-side {
             text-align: left;
+            min-width: 0;
           }
           .match-head {
             grid-template-columns: 1fr;

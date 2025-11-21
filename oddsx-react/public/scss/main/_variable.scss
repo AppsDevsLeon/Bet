@@ -1,93 +1,159 @@
-/* default font family */
+/* Fuentes e iconos globales */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.36.0/tabler-icons.min.css');
 
-/* Tema claro: fondos blancos, texto morado */
+/* Tema claro global OddsX */
 :root {
+  /* =========================
+     LAYOUT / MEDIDAS GLOBALES
+     ========================= */
+  --blue-h-mobile: 56px;    /* alto barra azul fija (mobile)   */
+  --blue-h-desktop: 64px;   /* alto barra azul fija (desktop)  */
+  --nav-h-mobile: 52px;     /* alto navbar blanca (mobile)     */
+  --nav-h-desktop: 60px;    /* alto navbar blanca (desktop)    */
+
+  --sidenav-w: 260px;             /* ancho sidebar expandida */
+  --sidenav-w-collapsed: 72px;    /* ancho sidebar colapsada */
+
+  --gap: 10px;              /* spacing base entre elementos */
+  --r-lg: 12px;             /* border-radius grande */
+  --h: 44px;                /* altura base de inputs/botones */
+
+  --shadow: 0 12px 30px rgba(0, 0, 0, .12);
+
+  /* =========================
+     TIPOGRAFÍA
+     ========================= */
   --body-font: 'Inter', sans-serif;
+  --font-title: clamp(32px, 6vw, 80px);  /* hero / headlines */
+  --font-sub: clamp(16px, 2.2vw, 22px);  /* subtítulo hero   */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semi: 600;
+  --weight-bold: 700;
+
+  /* =========================
+     TRANSICIONES / ANIMACIONES
+     ========================= */
   --transition: all 0.5s ease-in-out;
   --transition2: all 0.3s ease-in-out;
   --animate-duration: 1s;
   --animate-delay: 0.5s;
-  --sidenav-w: 260px;
-  --sidenav-w-collapsed: 72px;
 
-  /* Fondos (blancos y lilas MUY suaves) */
-  --p1: 255, 255, 255;   /* base blanca */
-  --p2: 248, 246, 255;   /* sección suave (#F8F6FF) */
-  --p3: 242, 238, 255;   /* tarjetas/blocs (#F2EEFF) */
+  /* =========================
+     PALETA BASE / FONDOS
+     =========================
+     naming amigable para UI
+  */
+  --bg-page: #ffffff;        /* fondo general (antes p1)          */
+  --bg-section: #f8f6ff;     /* secciones suaves lila (antes p2)  */
+  --bg-card: #f2eeff;        /* tarjeta / bloques (antes p3)      */
+  --bg-alt: #faf8ff;         /* tono muy claro, casi blanco       */
+  --bg-sidebar: #ffffff;     /* sidebar / panels claros           */
 
-  /* Texto (morados) y grises lilas para bordes */
-  --n1: 210, 200, 235;   /* borde sutil lila */
-  --n2: 186, 176, 220;   /* muted/bordes */
-  --n3: 58, 35, 126;     /* texto principal (#3A237E) */
-  --n4: 33, 20, 82;      /* títulos (#211452) */
-  --n5: 97, 73, 160;     /* subtítulos (#6149A0) */
-
-  --n6: 255, 255, 255;   /* sidebar/footer claro */
-  --n7: 245, 245, 250;   /* gris muy claro */
-  --n8: 120, 74, 255;    /* acento morado para textos */
-  --n9: 252, 251, 255;   /* casi blanco */
-
-  --n10: 234, 238, 255;  /* badges/chips claros */
-  --n11: 24, 16, 56;     /* morado profundo para contrastes puntuales */
-
-  /* Estados y acentos */
-  --g1: 53, 195, 30;     /* success */
-  --r1: 255, 72, 0;      /* error */
-
-  --highlight: 120, 74, 255;  /* primario botones/links (#784AFF) */
-  --highlight2: 95, 54, 226;  /* hover (#5F36E2) */
-
-  --success: 80, 200, 120;
-  --error: 255, 90, 90;
-
-  --white: 255, 255, 255;
-
-  /* Utilidades claras */
-  --bg-900:#ffffff;
-  --bg-800:#faf8ff;
-  --bg-700:#f2eeff;
-  --line-700:rgba(0,0,0,.08); /* líneas sutiles en claro */
-
-  /* Pills / chips claros */
-  --pill:#efe8ff;
-  --pill-active:#e0d3ff;
-  --pill-text:#3a237e;
-
-  /* Atajos en HEX */
-  --text:#3A237E;
-  --muted:#3357A5;
-  --accent:#3357A5;
-
-  /* Dimensiones */
-  --h:44px;
-  --r-lg:12px;
-  --gap:10px;
-
-  /* (Opcional) gradiente MUY suave para headers */
+  /* gradiente super suave para headers claros */
   --bg-gradient: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
 
+  /* chips / pills en modo claro */
+  --chip-bg: #f8f9fa;        /* pill fondo gris/blanco */
+  --chip-border: #e5e7eb;    /* borde chip/light dividers */
+  --pill-bg: #efe8ff;        /* pill lila suave */
+  --pill-active-bg: #e0d3ff; /* pill lila activa */
+  --pill-text: #3a237e;      /* texto pill */
 
+  /* =========================
+     TEXTO / TÍTULOS
+     ========================= */
+  --text-primary: #3A237E;   /* texto principal morado      */
+  --text-secondary: #6149A0; /* subtítulos morado suave     */
+  --text-heading: #211452;   /* títulos fuertes, alto peso  */
 
-    /* ... otras variables ... */
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semi: 600;
-  --weight-bold: 700; /* ← esta es la que hace el texto en negritas */
+  --text-dark: #0f172a;      /* texto casi negro sobre fondo blanco clásico */
+  --text-dim: #6b7280;       /* gris suave, labels secundarios */
 
+  --text-inverse: #ffffff;   /* texto sobre fondos oscuros / botones azules */
 
-    --brand-bg: #0b1020;              /* fondo oscuro general */
-  --brand-ink: #0f172a;             /* tinta principal (azul noche) */
-  --muted-ink: #475569;             /* texto secundario */
-  --surface: #ffffff;               /* tarjetas/superficies */
-  --accent: #d4af37;                /* dorado principal */
-  --accent-2: #f6e27a;              /* dorado claro */
-  --shadow: 0 12px 30px rgba(0,0,0,.12);
+  /* variantes auxiliares */
+  --text-link-accent: #784AFF;   /* morado acento links */
+  --text-link-accent-hover: #5F36E2;
 
-  /* Tipografía base */
-  --font-title: clamp(32px, 6vw, 80px);
-  --font-sub: clamp(16px, 2.2vw, 22px);
+  /* =========================
+     BORDES / LÍNEAS SUAVES
+     ========================= */
+  --border-soft: rgba(0, 0, 0, 0.06); /* nav bottom border, etc */
+  --border-card: rgba(0, 0, 0, 0.08);
+  --border-muted-lilac: rgb(210, 200, 235); /* n1 original */
+  --border-muted-lilac-2: rgb(186, 176, 220); /* n2 original */
+
+  /* =========================
+     ESTADOS / SEMÁFORO
+     ========================= */
+  --success: #50c878;        /* verde ok */
+  --error: #ff5a5a;          /* error rojo suave */
+  --count-red: #e11d48;      /* numerito rojo tipo badge contador */
+
+  /* =========================
+     BRAND / ACCENT COLORS
+     ========================= */
+
+  /* Azul corporativo deportivo (apuestas / header) */
+  --blue-primary: #1E3C8E;          /* azul profundo corporativo */
+  --brand-blue-500: #1846a3;        /* azul degradado topbar     */
+  --text-blue-900: #0b214f;         /* azul oscuro texto botones blancos */
+  --text-blue-1000: #001242;        /* azul más oscuro activo/hover */
+
+  /* Dorados premium (para VIP, money, odds, etc) */
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f6e27a;
+
+  /* Azul marca secundaria (old --accent-blue / --muted) */
+  --accent-blue: #3357A5;
+
+  /* =========================
+     HEADER / NAVBAR TOP (BARRA AZUL + BARRA BLANCA)
+     ========================= */
+
+  /* fondo de la navbar blanca */
+  --nav-bg: #ffffff;
+
+  /* barra de búsqueda dentro de la franja azul */
+  --search-bg: #1e3a8a;
+  --search-border-idle: rgba(255, 255, 255, 0.25);
+  --search-placeholder: rgba(255, 255, 255, 0.9);
+
+  /* color de texto en la zona de acciones del header (wallet / login / lang) */
+  --actions-text: #ffffff;
+
+  /* botones dentro del header */
+  --btn-solid-bg: #ffffff;
+  --btn-solid-text: #0b214f;
+  --btn-solid-border: #ffffff;
+
+  --btn-outline-bg: #1e3a8a;
+  --btn-outline-text: #ffffff;
+  --btn-outline-border: #ffffff;
+
+  /* líneas y subrayados en header/nav */
+  --border-nav-bottom: rgba(0, 0, 0, 0.06);
+  --link-underline-hover: rgba(30, 58, 138, 0.3);
+
+  /* =========================
+     SIDEBAR
+     ========================= */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: var(--blue-primary);
+  --sidebar-border-light: #e5e7eb;
+
+  /* =========================
+     UTILIDADES GENERALES
+     ========================= */
+  --white: #ffffff;          /* blanco base consistente */
+  --brand-bg-dark: #0b1020;  /* fondos muy oscuros / dark card */
+  --brand-ink-dark: #0f172a; /* tinta oscura p/ texto en dark */
+  --muted-ink-dark: #475569; /* texto secundario gris azulado */
+
+  /* para numeritos LIVE, tags mini, etc */
+  --chip-live-bg: #f8f9fa;
+  --chip-live-border: #e5e7eb;
 }
-
-

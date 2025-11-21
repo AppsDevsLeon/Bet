@@ -1,12 +1,13 @@
-import Promotions from '@/components/Pages/Promotions/Promotions'
+"use client";
+import React from "react";
+import CryptoMarket from "@/components/Pages/crypto/MarketsCryptoPage";
 
-import React from 'react'
-
-export default function page() {
+export default function Page() {
   return (
-      <>
-     
-          <Promotions />
-      </>
-  )
+    <div className="page-under-header">
+      <div className="page-under-header-inner">
+        <CryptoMarket />
+      </div>
+    </div>
+  );
 }

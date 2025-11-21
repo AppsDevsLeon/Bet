@@ -1,15 +1,15 @@
 
-import TennisLive from '@/components/Pages/Tennis/TennisLive';
-import TopTennis from '@/components/Pages/Tennis/TopTennis';
-import UpCmingTennis from '@/components/Pages/Tennis/UpCmingTennis';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="tennis" />
+        </div>
+      </div>
 
-            <TopTennis />
-            <TennisLive />
-            <UpCmingTennis />
-        </>
-    )
+    </>
+  );
 }

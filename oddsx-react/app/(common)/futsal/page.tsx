@@ -1,15 +1,15 @@
 
-import FutsalLive from '@/components/Pages/Futsal/FutsalLive';
-import TopFutsal from '@/components/Pages/Futsal/TopFutsal';
-import UpCmingFutsal from '@/components/Pages/Futsal/UpCmingFutsal';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="futsal" />
+        </div>
+      </div>
 
-            <TopFutsal />
-            <FutsalLive />
-            <UpCmingFutsal />
-        </>
-    )
+    </>
+  );
 }

@@ -8,6 +8,8 @@ import MiddleSlider from "@/components/Pages/Home/MiddleSlider";
 import UpComingEvents from "@/components/Pages/Home/UpComingEvents";
 import Dashboard from "@/components/Pages/Dashboard/Dashboard";
 import Inicio from '@/app/(common)/home/Home'
+import MainFooter from "@/components/Shared/MainFooter";
+import FooterCard from "@/components/Shared/FooterCard";
 import  Banner from '@/components/banner/FifaPromoBanner'
 import LiveEventsTicker from "@/components/reusable/LiveEventsTicker";
 import LiveInPlay from "@/components/Pages/LiveInPlay/LiveInPlay";
@@ -18,14 +20,14 @@ import NFLSection from "@/components/Pages/AmericanFootball/UpCmingAmericanFootb
 export default function Home() {
   return (
     <>
-      <HeadBlue />
-      <Head />
+
       {/* Franja de partidos debajo del header 
        <LiveEventsTicker fixedTop={false} belowHeader headerOffset={100} />*/}
       <Inicio />
-      <Banner/>
-      <HeroSlider />
- 
+
+       {/* FOOTERS GLOBALES (abajo en todas las páginas) */}
+                 <FooterCard />
+                 <MainFooter />
       <main className="p-6 space-y-10">
       </main>
 
@@ -42,4 +44,3 @@ export default function Home() {
     </>
   );
 }
-

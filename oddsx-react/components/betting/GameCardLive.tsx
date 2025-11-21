@@ -56,7 +56,7 @@ export default function GameCardLive({
           border: 1px solid #e5e7eb;
           border-radius: 12px;
           background: #fff;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      
           padding: 16px;
           display: grid;
           row-gap: 16px;
@@ -239,10 +239,9 @@ function ScoreHeaderLive({
           background: radial-gradient(
             circle at 30% 30%,
             #ffffff 0%,
-            #eef2ff 70%
+            #ffffffff 70%
           );
-          border: 1px solid #d1d5db;
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+          border: 1px solid #ffffffff;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -319,8 +318,8 @@ function ScoreHeaderLive({
           font-size: 0.75rem;
           line-height: 1rem;
           padding: 6px 10px;
-          color: #4f46e5;
-          box-shadow: 0 2px 0 #cfcfcf;
+          color: #1E3A8A;
+   
           cursor: pointer;
           font-weight: 600;
           white-space: nowrap;
@@ -524,37 +523,62 @@ function OddsCell({
 
   return (
     <>
-      <button type="button" className={`odds-pill ${toneClass}`} onClick={handleClick}>
+      <button type="button" className={`odds-pill ${toneClass} inactive active `} onClick={handleClick}>
         <div>{opt.label}</div>
         <div>{opt.price}</div>
       </button>
 
       <style jsx>{`
-        .odds-pill {
-          width: 100%;
-          border-radius: 8px;
-          border: 1px solid #d1d5db;
-          padding: 10px 12px;
-          font-weight: 600;
-          display: flex;
-          justify-content: space-between;
-          cursor: pointer;
-          box-shadow: 0 2px 0 #cfcfcf;
-          transition: 0.15s ease;
-        }
-        .tone-red {
-          background: #8b0000;
-          color: #e0e0ff;
-        }
-        .tone-blue {
-          background: #002f9e;
-          color: #e0e0ff;
-        }
-        .tone-neutral {
-          background: #f9fafb;
-          color: #4f46e5;
-        }
-      `}</style>
+  .odds-pill {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+  }
+
+  /* estado INACTIVO (reposo) */
+  .odds-pill.inactive {
+    background: #ffffff;            /* fondo blanco */
+    border-color: #1E3A8A;          /* borde azul */
+    color: #1E3A8A;                 /* texto azul */
+  }
+
+  /* estado ACTIVO (seleccionado) */
+  .odds-pill.active {
+    background: #ffffffff;            /* fondo azul */
+    color: #1E3A8A;                 /* texto blanco */
+
+
+
+    position: relative;
+  }
+
+  /* borde animado "latido" alrededor cuando está activo */
+  .odds-pill.active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    border: 2px solid rgba(30, 58, 138, 0.6); /* azul */
+    animation: pulseBorder 1.4s infinite ease-in-out;
+    pointer-events: none;
+  }
+
+ 
+
+  /* hover para las que no están activas (feedback táctil) */
+  .odds-pill.inactive:hover {
+    background: #1E3A8A;            /* azul muy clarito */
+    color:#fff
+  }
+`}</style>
+
     </>
   );
 }

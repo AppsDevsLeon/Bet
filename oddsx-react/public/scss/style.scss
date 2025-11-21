@@ -14,18 +14,19 @@
 @import "main/_mixins";
 @import "main/_typography";
 @import "main/_global";
-@import "main/_tokens";   
-@import "main/_nav";      
+@import "main/_tokens";        
 @import "main/_logo";  
 @import "main/_Header";  
 @import "main/_home-hero"; 
 @import "main/_cards"; 
+@import "main/_colors"; 
 
 // Scss Pages
-@import "pages/_navbar";
+
 @import "pages/_footer";
 @import "pages/_section";
 @import "pages/_index.scss";
+
 
 //Scss Pages-Modules
 @import "pages/shared/sidenav";

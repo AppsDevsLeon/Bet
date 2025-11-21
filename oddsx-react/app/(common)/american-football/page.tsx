@@ -4,15 +4,12 @@ import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootb
 export default function Page() {
   return (
     <>
-      {/* Empuja el contenido hacia abajo para no quedar tapado por el header fijo */}
-      <div
-        style={{
-          paddingTop: '15vh', // header ≈ 20% de alto pantalla
-        }}
-        className="min-h-screen bg-[#0F172A]" // opcional: fondo oscuro tipo sportsbook
-      >
-        <NFLSection sportSlug="nfl" />
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="nfl" />
+        </div>
       </div>
+
     </>
   );
 }

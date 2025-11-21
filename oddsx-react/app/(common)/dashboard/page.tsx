@@ -1,15 +1,15 @@
-import React from 'react'
-import Dashboard from '@/components/Pages/Dashboard/Dashboard'
-import HeaderTwo from '@/components/Shared/HeaderTwo'
-import WalletSummary from "@/components//Pages/Dashboard/WalletSummary";
 
-export default function page() {
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
+
+export default function Page() {
   return (
-      <>   
-          <HeaderTwo />
-          <WalletSummary />
-          <Dashboard />
-          
-      </>
-  )
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="nfl" />
+        </div>
+      </div>
+
+    </>
+  );
 }

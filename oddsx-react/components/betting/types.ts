@@ -6,7 +6,7 @@ export type MarketPickSide =
 export type MarketOption = {
   label: string;      // "OSA", "BAR +0.5", "O 3.5"
   price: string;      // "40¢"
-  tone?: "green" | "red" | "neutral" | "yellow" | "blue";
+  tone?: "green" | "red" | "neutral" | "yellow" | "blue"|"orange"|"navy"|"purple"|"gold";
 };
 
 export type TeamSide = {

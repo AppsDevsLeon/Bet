@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import NavItem from "./NavItem";
-import { useI18n } from "@/lib/i18n/I18nProvider";  
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useWallet } from "@/hooks/useWallet";
 import { useRouter } from "next/navigation";
 
@@ -70,19 +70,9 @@ export default function Header() {
     <>
       <header className="header-section2 header-section fullwidth-header">
         <nav className="navbar navbar-expand-lg position-relative py-md-3 py-lg-6 workready w-100 px-0">
-          {/* MENU A TODO EL ANCHO, PEGADO A LA IZQUIERDA */}
-          <div
-            className={`collapse navbar-collapse justify-content-start ${isCardExpanded ? "show" : "hide"}`}
-            id="navbar-content"
-          >
-            <ul className="navbar-nav2fixed navbar-nav d-flex align-items-lg-center gap-4 gap-sm-5 py-2 py-lg-0 align-self-center p2-bg w-100">
-              <NavItem />
-            </ul>
-          </div>
-  
-   
-
-      
+          <ul className="navbar-nav2fixed navbar-nav d-flex align-items-lg-center gap-4 gap-sm-5 py-2 py-lg-0 align-self-center  w-100">
+            <NavItem />
+          </ul>
         </nav>
       </header>
 

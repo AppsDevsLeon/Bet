@@ -1,11 +1,14 @@
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-import UpCmingVolleyball from '@/components/Pages/Volleyball/UpCmingVolleyball';
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="volleyball" />
+        </div>
+      </div>
 
-export default function page() {
-    return (
-        <>
-   
-            <UpCmingVolleyball />
-        </>
-    )
+    </>
+  );
 }

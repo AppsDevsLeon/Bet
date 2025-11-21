@@ -128,8 +128,6 @@ export default function LeagueHeader({
           height: 36px;
           border-radius: 6px;
           background: #fff;
-          border: 1px solid #d1d5db;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
           font-size: 20px;
           line-height: 36px;
           text-align: center;
@@ -154,23 +152,23 @@ export default function LeagueHeader({
 
         .tab-btn {
           border-radius: 8px;
-          border: 1px solid #d1d5db;
-          background: #f9fafb;
-          box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08);
+          border: 1px solid ;
+          background: #fff;
           min-width: 90px;
           padding: 10px 14px;
           font-size: 1rem;
           font-weight: 500;
           line-height: 1.2;
-          color: #6b7280;
+          color: #1E3A8A;
           text-align: center;
+           border-color: #1E3A8A;
         }
 
         .tab-btn.active {
-          background: #e5e7eb;
-          color: #000;
-          border-color: #6b7280;
-          box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+          background: #1E3A8A;
+          color: #fff;
+          border-color: #fff;
+       
         }
 
         /* RIGHT SIDE */
@@ -187,10 +185,9 @@ export default function LeagueHeader({
           align-items: center;
           gap: 12px;
           border: 1px solid #d1d5db;
-          border-radius: 10px;
+          border-radius: 8px;
           padding: 8px 12px;
           background: #fff;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
           font-size: 0.9rem;
           line-height: 1.2;
           color: #111827;
@@ -221,11 +218,10 @@ export default function LeagueHeader({
           height: 26px;
           border-radius: 999px;
           background: #e5e7eb;
-          box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
           transition: background 0.15s;
         }
         .switch.on {
-          background: #1248ff;
+          background: #1E3A8A;
         }
 
         .knob {
@@ -236,7 +232,7 @@ export default function LeagueHeader({
           height: 20px;
           border-radius: 999px;
           background: #fff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+
           transition: transform 0.15s;
         }
         .switch.on .knob {
@@ -252,7 +248,6 @@ export default function LeagueHeader({
           border-radius: 12px;
           background: #f9fafb;
           border: 1px solid #d1d5db;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
           font-size: 1rem;
           font-weight: 500;
           line-height: 1.2;

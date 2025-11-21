@@ -1,11 +1,15 @@
 
-import TopKabaddi from '@/components/Pages/Kabaddi/TopKabaddi';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="kabaddi" />
+        </div>
+      </div>
 
-            <TopKabaddi />
-        </>
-    )
+    </>
+  );
 }

@@ -1,14 +1,15 @@
 
-import EcricketLive from '@/components/Pages/Ecricket/EcricketLive';
-import TopEcricket from '@/components/Pages/Ecricket/TopEcricket';
-import UpCmingEcricket from '@/components/Pages/Ecricket/UpCmingEcricket';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-            <TopEcricket />
-            <EcricketLive />
-            <UpCmingEcricket />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="ecricket" />
+        </div>
+      </div>
+
+    </>
+  );
 }

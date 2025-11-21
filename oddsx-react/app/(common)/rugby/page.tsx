@@ -1,13 +1,15 @@
 
-import TopRugby from '@/components/Pages/Rugby/TopRugby';
-import UpCmingRugby from '@/components/Pages/Rugby/UpCmingRugby';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="rugby" />
+        </div>
+      </div>
 
-            <TopRugby />
-            <UpCmingRugby />
-        </>
-    )
+    </>
+  );
 }

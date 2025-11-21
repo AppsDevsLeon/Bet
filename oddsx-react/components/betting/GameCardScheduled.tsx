@@ -3,6 +3,72 @@
 import React from "react";
 import type { GameCardData, Seleccion } from "./types";
 
+/* ===============================
+   Paleta y helpers visuales
+================================= */
+const BLUE = "#1E3C8E";
+const BLUE_DARK = "#162C68";
+const BLUE_LIGHT = "#3153C7";
+const RED = "#B91C1C";
+const SLATE_TEXT = "#111827";
+const SLATE_SUB = "#6B7280";
+const GRAY_BG = "#F3F4F6";
+const GRAY_BORDER = "#D1D5DB";
+
+/* ---------------------------------
+   Parseo de cuotas → probabilidad
+   Soporta:
+   - American: +150 / -120 / +100 / -105 / EVEN / EV
+   - Decimal: 1.80, 2.05
+   - Fraccional: 5/2, 11/10
+---------------------------------- */
+function oddsToImpliedProb(oddsRaw: string | number): number | null {
+  const raw = String(oddsRaw).trim().toUpperCase();
+
+  // American EVEN
+  if (raw === "EVEN" || raw === "EV") return 0.5;
+
+  // Fraccional a/b
+  if (/^\d+\s*\/\s*\d+$/.test(raw)) {
+    const [a, b] = raw.split("/").map((x) => parseFloat(x));
+    if (a > 0 && b > 0) {
+      // decimal = 1 + a/b → prob = 1/decimal
+      const dec = 1 + a / b;
+      return dec > 0 ? 1 / dec : null;
+    }
+    return null;
+  }
+
+  // American (+150, -120)
+  if (/^[\+\-]\d+$/.test(raw)) {
+    const num = parseInt(raw, 10);
+    if (num > 0) return 100 / (num + 100); // underdog +
+    if (num < 0) return -num / (-num + 100); // favorito -
+    return null;
+  }
+
+  // Decimal (1.80, 2, 3.25)
+  const dec = Number(raw);
+  if (!Number.isNaN(dec) && dec > 1) {
+    return 1 / dec;
+  }
+
+  // Si viene dentro de texto como "-2.5 (-110)" intentamos extraer el número
+  const match = raw.match(/([+\-]\d{2,3})/);
+  if (match) {
+    const n = parseInt(match[1], 10);
+    return n > 0 ? 100 / (n + 100) : -n / (-n + 100);
+  }
+
+  return null;
+}
+
+function formatProb(p: number | null): string {
+  if (p == null) return "";
+  const pct = Math.round(p * 100);
+  return `≈ ${pct}%`;
+}
+
 /* ========== Pill estilo sportsbook (azul/rojo/gris) ========== */
 function PricePill({
   label,
@@ -12,22 +78,40 @@ function PricePill({
 }: {
   label: string;
   price: string;
-  tone?: string; // "red" | "blue" | "gray"
+  tone?: "red" | "blue" | "gray";
   onClick?: () => void;
 }) {
-  const getColors = () => {
+  const prob = oddsToImpliedProb(price);
+
+  const colors = (() => {
     switch (tone) {
       case "red":
-        return { bg: "#B3001B", text: "#fff" }; // rojo favorito local / side A
+        return {
+          bg: RED,
+          bgHover: "#991B1B",
+          text: "#fff",
+          border: "rgba(0,0,0,0.15)",
+          shadow: "0 3px 0 rgba(0, 0, 0, 0.2)",
+        };
       case "blue":
-        return { bg: "#0049B8", text: "#fff" }; // azul favorito visitante / side B
+        return {
+          bg: `linear-gradient(180deg, ${BLUE_LIGHT}, ${BLUE})`,
+          bgHover: `linear-gradient(180deg, ${BLUE}, ${BLUE_DARK})`,
+          text: "#fff",
+          border: "rgba(0,0,0,0.12)",
+          shadow: "0 3px 0 rgba(0, 0, 0, 0.22)",
+        };
       case "gray":
       default:
-        return { bg: "#E5E7EB", text: "#111827" }; // DRAW / neutral
+        return {
+          bg: "#E5E7EB",
+          bgHover: "#D1D5DB",
+          text: SLATE_TEXT,
+          border: "rgba(0,0,0,0.12)",
+          shadow: "0 3px 0 rgba(0, 0, 0, 0.18)",
+        };
     }
-  };
-
-  const { bg, text } = getColors();
+  })();
 
   return (
     <>
@@ -36,46 +120,84 @@ function PricePill({
         className="pill-wrap"
         onClick={onClick}
         style={{
-          backgroundColor: bg,
-          color: text,
+          color: colors.text,
+          borderColor: colors.border,
+          boxShadow: colors.shadow as any,
+          background:
+            tone === "blue" || tone === "red" ? (colors.bg as any) : undefined,
+          backgroundColor: tone === "gray" ? (colors.bg as any) : undefined,
         }}
       >
         <span className="pill-label">
-          {label} <span className="pill-price">{price}</span>
+          <span className="pill-main">
+            <span className="pill-market">{label}</span>
+            <span className="pill-price">{price}</span>
+          </span>
+          {prob !== null && prob !== undefined && (
+            <span className="pill-prob">{formatProb(prob)}</span>
+          )}
         </span>
       </button>
 
       <style jsx>{`
         .pill-wrap {
           width: 100%;
-          border-radius: 8px;
-          padding: 10px 12px;
-          font-size: 0.9rem;
-          font-weight: 600;
+          border-radius: 10px;
+          padding: 12px 14px;
+          font-size: 0.95rem;
+          font-weight: 700;
           line-height: 1.2;
           display: flex;
           justify-content: center;
           align-items: center;
           text-align: center;
-
-          border: 1px solid rgba(0, 0, 0, 0.15);
-          box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+          border: 1px solid;
+          transition: transform 0.08s ease, box-shadow 0.08s ease,
+            background 0.12s ease;
+          will-change: transform, box-shadow, background;
         }
-
+        .pill-wrap:hover {
+          filter: saturate(1.08);
+        }
         .pill-wrap:active {
           transform: translateY(1px);
           box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
         }
 
         .pill-label {
+          display: grid;
+          row-gap: 4px;
+          justify-items: center;
+        }
+        .pill-main {
           display: flex;
+          gap: 8px;
+          align-items: baseline;
           flex-wrap: wrap;
-          justify-content: center;
-          gap: 4px;
+        }
+        .pill-market {
+          font-weight: 600;
+          opacity: 0.95;
+        }
+        .pill-price {
+          font-weight: 800;
+          letter-spacing: 0.2px;
+        }
+        .pill-prob {
+          font-size: 0.75rem;
+          font-weight: 600;
+          opacity: 0.95;
         }
 
-        .pill-price {
-          font-weight: 700;
+        /* Hover color swap por tono */
+        .pill-wrap:hover {
+          background: ${
+            tone === "blue"
+              ? `linear-gradient(180deg, ${BLUE}, ${BLUE_DARK})`
+              : tone === "red"
+              ? "#991B1B"
+              : "#ffffffff"
+          };
         }
       `}</style>
     </>
@@ -83,7 +205,7 @@ function PricePill({
 }
 
 /* =========================================================
-   GameCardScheduledWhite
+   GameCardScheduledWhite (elegante azul/blanco + prob)
    ========================================================= */
 export default function GameCardScheduledWhite({
   game,
@@ -96,44 +218,27 @@ export default function GameCardScheduledWhite({
   onOpenGame: (id: string) => void;
   gameDateLabel: string;
 }) {
-  // 🔥 nueva lógica de color para moneyline
+  // Coloreo moneyline si no viene desde la data:
   function getToneForMoneyline(
     label: string,
     idx: number,
     totalOptions: number,
     toneFromData?: string
-  ) {
-    // si ya nos mandaste tone explícito desde la data (opt.tone) respétalo
+  ): "red" | "blue" | "gray" {
     if (toneFromData === "red") return "red";
     if (toneFromData === "blue") return "blue";
     if (toneFromData === "gray") return "gray";
 
-    // si es DRAW, siempre gris neutro
-    if (label.toUpperCase().includes("DRAW")) {
-      return "gray";
-    }
-
-    // si solo hay 2 opciones (NFL)
-    // idx 0 -> rojo, idx 1 -> azul
-    if (totalOptions === 2) {
-      return idx === 0 ? "red" : "blue";
-    }
-
-    // si hay 3 opciones (soccer clásico away/draw/home o home/draw/away):
-    // idea: el que está en medio suele ser DRAW → ya cubrimos arriba
-    // entonces:
-    // idx 0 -> rojo
-    // idx 2 -> azul
+    if (label.toUpperCase().includes("DRAW")) return "gray";
+    if (totalOptions === 2) return idx === 0 ? "red" : "blue";
     if (totalOptions === 3) {
       if (idx === 0) return "red";
       if (idx === 2) return "blue";
+      return "gray";
     }
-
-    // fallback
     return "gray";
   }
 
-  // construir tu Seleccion con tu shape oficial
   function buildSeleccion({
     mercado,
     optLabel,
@@ -153,7 +258,6 @@ export default function GameCardScheduledWhite({
     };
   }
 
-  // Week 10 • AT&T Stadium • SNF
   const metaLine = [game.week, game.stadium, game.broadcast]
     .filter(Boolean)
     .join(" • ");
@@ -166,9 +270,9 @@ export default function GameCardScheduledWhite({
           <div className="date-label">{gameDateLabel}</div>
 
           <div className="cols-labels">
-            <div className="col-head">MONEYLINE</div>
-            <div className="col-head">SPREAD</div>
-            <div className="col-head">TOTAL</div>
+            <div className="col-head">Moneyline</div>
+            <div className="col-head">Spread</div>
+            <div className="col-head">Total</div>
           </div>
         </header>
 
@@ -185,7 +289,7 @@ export default function GameCardScheduledWhite({
                       : "Scheduled")}
                 </span>
 
-                <span className="vol">{game.vol}</span>
+                {game.vol && <span className="vol">Vol: {game.vol}</span>}
               </div>
 
               {metaLine && <div className="row-2 meta-extra">{metaLine}</div>}
@@ -226,7 +330,7 @@ export default function GameCardScheduledWhite({
                       opt.label,
                       idx,
                       arr.length,
-                      opt.tone
+                      (opt as any).tone
                     )}
                     onClick={() =>
                       onPick(
@@ -292,8 +396,8 @@ export default function GameCardScheduledWhite({
       <style jsx>{`
         .match-block {
           display: grid;
-          row-gap: 8px;
-          color: #111827;
+          row-gap: 10px;
+          color: ${SLATE_TEXT};
           font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter",
             "Roboto", "Segoe UI", sans-serif;
         }
@@ -308,18 +412,18 @@ export default function GameCardScheduledWhite({
 
         .date-label {
           font-size: 1rem;
-          font-weight: 600;
-          color: #1f2937;
+          font-weight: 700;
+          color: ${SLATE_TEXT};
         }
 
         .cols-labels {
           display: grid;
-          grid-template-columns: repeat(3, minmax(140px, 1fr));
+          grid-template-columns: repeat(3, minmax(160px, 1fr));
           column-gap: 16px;
           row-gap: 4px;
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: #6b7280;
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: ${SLATE_SUB};
           text-transform: uppercase;
           letter-spacing: 0.03em;
         }
@@ -328,7 +432,7 @@ export default function GameCardScheduledWhite({
           text-align: center;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 880px) {
           .date-row {
             grid-template-columns: 1fr;
           }
@@ -342,9 +446,9 @@ export default function GameCardScheduledWhite({
 
         .card {
           background: #ffffff;
-          border: 1px solid #d1d5db;
-          border-radius: 12px;
-          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.04);
+          border: 1px solid ${GRAY_BORDER};
+          border-radius: 14px;
+          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.05);
           padding: 16px;
           display: grid;
           row-gap: 16px;
@@ -354,7 +458,7 @@ export default function GameCardScheduledWhite({
           display: flex;
           align-items: flex-start;
           flex-wrap: wrap;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           line-height: 1.2;
           gap: 12px;
         }
@@ -362,7 +466,7 @@ export default function GameCardScheduledWhite({
         .left-meta {
           display: grid;
           row-gap: 4px;
-          color: #111827;
+          color: ${SLATE_TEXT};
         }
 
         .row-1 {
@@ -373,27 +477,27 @@ export default function GameCardScheduledWhite({
         }
 
         .time-chip {
-          border-radius: 6px;
-          background: #f9fafb;
-          border: 1px solid #d1d5db;
-          padding: 4px 8px;
-          font-size: 0.8rem;
-          font-weight: 500;
+          border-radius: 8px;
+          background: ${GRAY_BG};
+          border: 1px solid ${GRAY_BORDER};
+          padding: 6px 10px;
+          font-size: 0.82rem;
+          font-weight: 600;
           line-height: 1.1;
-          color: #111827;
+          color: ${SLATE_TEXT};
           box-shadow: 0 2px 0 #cfcfcf;
         }
 
         .vol {
-          color: #6b7280;
-          font-weight: 400;
+          color: ${SLATE_SUB};
+          font-weight: 500;
         }
 
         .meta-extra {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           line-height: 1.2;
-          color: #6b7280;
-          font-weight: 400;
+          color: ${SLATE_SUB};
+          font-weight: 500;
         }
 
         .right-meta {
@@ -408,50 +512,51 @@ export default function GameCardScheduledWhite({
           align-items: center;
           gap: 6px;
           background: #f9fafb;
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          font-size: 0.75rem;
+          border: 1px solid ${GRAY_BORDER};
+          border-radius: 10px;
+          font-size: 0.78rem;
           line-height: 1rem;
-          padding: 6px 10px;
-          color: #111827;
+          padding: 8px 12px;
+          color: ${SLATE_TEXT};
           box-shadow: 0 2px 0 #cfcfcf;
           cursor: pointer;
           white-space: nowrap;
+          font-weight: 700;
         }
 
         .gameview-btn .bubble {
           background: #e5e7eb;
-          border-radius: 6px;
-          padding: 0 6px;
-          font-weight: 600;
-          font-size: 0.7rem;
+          border-radius: 8px;
+          padding: 0 8px;
+          font-weight: 800;
+          font-size: 0.72rem;
           line-height: 1.2;
-          color: #111827;
+          color: ${SLATE_TEXT};
         }
 
         .gameview-btn .arrow {
-          font-weight: 600;
-          color: #6b7280;
+          font-weight: 800;
+          color: ${SLATE_SUB};
         }
 
         .bell-btn {
           background: #fff;
-          border-radius: 8px;
-          border: 1px solid #d1d5db;
+          border-radius: 10px;
+          border: 1px solid ${GRAY_BORDER};
           box-shadow: 0 2px 0 #cfcfcf;
-          font-size: 0.8rem;
+          font-size: 0.9rem;
           line-height: 1;
-          padding: 6px 8px;
+          padding: 8px 10px;
           cursor: pointer;
         }
 
         .lines-grid {
           display: grid;
           grid-template-columns:
+            minmax(200px, 1.2fr)
             minmax(180px, 1fr)
-            minmax(160px, 1fr)
-            minmax(160px, 1fr)
-            minmax(160px, 1fr);
+            minmax(180px, 1fr)
+            minmax(180px, 1fr);
           column-gap: 16px;
           row-gap: 16px;
         }
@@ -464,7 +569,7 @@ export default function GameCardScheduledWhite({
 
         .teams-col {
           display: grid;
-          row-gap: 16px;
+          row-gap: 18px;
           min-width: 0;
         }
 
@@ -472,7 +577,7 @@ export default function GameCardScheduledWhite({
         .spread-col,
         .total-col {
           display: grid;
-          row-gap: 8px;
+          row-gap: 10px;
           min-width: 0;
         }
 
@@ -505,7 +610,7 @@ function TeamRow({
           ) : (
             <div
               className="logo-fallback"
-              style={{ backgroundColor: side.color || "#1e3a8a" }}
+              style={{ backgroundColor: side.color || BLUE }}
             >
               {side.abbr}
             </div>
@@ -525,38 +630,39 @@ function TeamRow({
         .teamrow {
           display: grid;
           grid-template-columns: auto 1fr;
-          align-items: flex-start;
+          align-items: center;
           column-gap: 12px;
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           line-height: 1.2;
-          color: #111827;
+          color: ${SLATE_TEXT};
         }
 
         .logo-wrap {
-          width: 32px;
-          height: 32px;
+          width: 36px;
+          height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
         .logo-img {
-          width: 32px;
-          height: 32px;
+          width: 36px;
+          height: 36px;
           object-fit: contain;
         }
 
         .logo-fallback {
-          min-width: 32px;
-          min-height: 32px;
+          width: 36px;
+          height: 36px;
           border-radius: 999px;
           color: #fff;
-          font-size: 0.7rem;
-          font-weight: 700;
-          line-height: 32px;
+          font-size: 0.72rem;
+          font-weight: 800;
+          line-height: 36px;
           text-align: center;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+          border: 1px solid rgba(0, 0, 0, 0.18);
+          letter-spacing: 0.2px;
         }
 
         .team-meta {
@@ -565,24 +671,25 @@ function TeamRow({
         }
 
         .name-line {
-          font-weight: 600;
+          font-weight: 700;
           display: flex;
           flex-wrap: wrap;
-          column-gap: 4px;
-          color: #111827;
+          column-gap: 6px;
+          color: ${SLATE_TEXT};
         }
 
         .abbr {
-          font-weight: 700;
+          font-weight: 900;
+          color: ${BLUE};
         }
 
         .team-name {
-          font-weight: 500;
+          font-weight: 700;
         }
 
         .record {
           font-size: 0.8rem;
-          color: #6b7280;
+          color: ${SLATE_SUB};
           line-height: 1.2;
         }
       `}</style>

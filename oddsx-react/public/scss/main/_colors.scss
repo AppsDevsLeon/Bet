@@ -1,0 +1,190 @@
+// color with class
+.alt-color {
+
+	a,
+	p,
+	span,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	i,
+	select,
+	button {
+		color: rgba(var(--n8), 1);
+	}
+}
+
+.p1-color {
+	color: rgba(var(--p1), 1);
+}
+
+.p2-color {
+	color: rgba(var(--p2), 1);
+}
+
+.p3-color {
+	color: rgba(var(--p3), 1);
+}
+
+.p1-bg {
+	background: rgba(var(--p1), 1);
+}
+
+.p2-bg {
+	background: rgba(var(--p2), 1);
+}
+
+.p3-bg {
+	background: rgba(var(--p3), 1);
+}
+
+.n1-color {
+	color: rgba(var(--n1), 1);
+}
+
+.n2-color {
+	color: rgba(var(--n2), 1);
+}
+
+.n3-color {
+	color: rgba(var(--n3), 1);
+}
+
+.n4-color {
+	color: rgba(var(--n4), 1);
+}
+
+.n5-color {
+	color: rgba(var(--n5), 1);
+}
+
+.n6-color {
+	color: rgba(var(--n6), 1);
+}
+
+.n7-color {
+	color: rgba(var(--n7), 1);
+}
+
+.n8-color {
+	color: rgba(var(--n8), 1);
+}
+
+.n9-color {
+	color: rgba(var(--n9), 1);
+}
+
+.n10-color {
+	color: rgba(var(--n10), 1);
+}
+
+.n11-color {
+	color: rgba(var(--n11), 1);
+}
+
+.n1-bg {
+	background: rgba(var(--n1), 1);
+}
+
+.n2-bg {
+	background: rgba(var(--n2), 1);
+}
+
+.n3-bg {
+	background: rgba(var(--n3), 1);
+}
+
+.n4-bg {
+	background: rgba(var(--n4), 1);
+}
+
+.n5-bg {
+	background: rgba(var(--n5), 1);
+}
+
+.n6-bg {
+	background: rgba(var(--n6), 1);
+}
+
+.n7-bg {
+	background: rgba(var(--n7), 1);
+}
+
+.n8-bg {
+	background: rgba(var(--n8), 1);
+}
+
+.n9-bg {
+	background: rgba(var(--n9), 1);
+}
+
+.n10-bg {
+	background: rgba(var(--n10), 1);
+}
+
+.n11-bg {
+	background: rgba(var(--p1), 1);
+}
+
+.g1-color {
+	color: rgba(var(--g1), 1);
+}
+
+.g1-bg {
+	background: rgba(var(--g1), 1);
+}
+
+.r1-color {
+	color: rgba(var(--r1), 1);
+}
+
+.r1-bg {
+	background: rgba(var(--r1), 1);
+}
+
+.border-one {
+	border: 1px solid #1E3C8E;
+}
+
+.border-two {
+	border: 1px solid #1E3C8E;
+}
+
+.border-three {
+	border: 1px solid #0D1322;
+}
+
+.border-four {
+	border: 1px solid #2C3655;
+}
+
+.rounded-8 {
+	border-radius: 8px;
+}
+
+.rounded-17 {
+	border-radius: 17px;
+}
+
+.rounded-14 {
+	border-radius: 14px;
+}
+
+.rounded-item {
+	border-radius: 50%;
+}
+
+.rounded-item2 {
+	border-radius: 42%;
+}
+
+.rounded-20 {
+	border-radius: 20px;
+}
+
+.box-shadow3 {
+	box-shadow: var(--box-shadow-p1);
+}

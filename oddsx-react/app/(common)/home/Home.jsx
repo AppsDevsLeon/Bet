@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import html2canvas from "html2canvas";
 
 import Soccer1 from "@/components/sports/Soccer1";
@@ -26,25 +21,22 @@ const CARD_SKINS = [
   "https://i.imgur.com/tUk5SC0.png",
 ];
 
+// mediaType -> React component or fallback image (JS only, no TS types)
 const PLAYER_MEDIA_MAP = {
   soccer1: Soccer1,
   soccer2: Soccer2,
   basket: Basket,
-  gm:'https://i.imgur.com/sdds9F1.png'
+  gm: "https://i.imgur.com/sdds9F1.png",
 };
 
+// featured match demo
 const MATCH_DATA = {
-  phase: "MUNDIAL · MERCADO OFICIAL",
+  phase: "WORLD CUP · OFFICIAL MARKET",
   homeTeam: "Argentina",
-  awayTeam: "Brasil",
-  dateLabel: "12 Jun 2026 · 18:00",
+  awayTeam: "Brazil",
+  dateLabel: "Jun 12, 2026 · 18:00",
   venue: "Estadio Azteca",
-  markets: [
-    "Ganador 90’",
-    "Más de 2.5 goles",
-    "Ambos anotan",
-    "Hándicap asiático",
-  ],
+  markets: ["1X2 Winner (90’)", "Over 2.5 Goals", "Both Teams to Score", "Asian Handicap"],
   mediaType: "soccer1",
   badgeCountryLeft:
     "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
@@ -54,18 +46,30 @@ const MATCH_DATA = {
     "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg",
 };
 
-/* ======================
-   CARTA
-====================== */
+/* =======================================================
+   "FIFA CARD" STYLE WITH SHINE + 3D PARALLAX
+======================================================= */
 function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
   const cardRef = useRef(null);
   const shineRef = useRef(null);
   const boundsRef = useRef(null);
 
   const skin = CARD_SKINS[skinIndex % CARD_SKINS.length];
-  const MediaComp =
-    PLAYER_MEDIA_MAP[matchData.mediaType] || PLAYER_MEDIA_MAP["soccer1"];
 
+  // pick proper media renderer (component or image fallback)
+  const RawMedia = PLAYER_MEDIA_MAP[matchData.mediaType] || PLAYER_MEDIA_MAP["soccer1"];
+  const MediaComp =
+    typeof RawMedia === "string"
+      ? () => (
+          <img
+            src={RawMedia}
+            alt="player"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        )
+      : RawMedia;
+
+  // 3D tilt based on mouse position
   const rotateToMouse = useCallback((e) => {
     const cardEl = cardRef.current;
     if (!cardEl || !boundsRef.current) return;
@@ -120,6 +124,7 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
     };
   }, [rotateToMouse]);
 
+  // export card as PNG
   const handleGenerate = async () => {
     if (!cardRef.current) return;
     const canvas = await html2canvas(cardRef.current, {
@@ -137,17 +142,18 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
   return (
     <div className="fifa-card-wrapper">
       <div className="fifa-card" ref={cardRef}>
-        {/* fondo / skin */}
+        {/* background / skin */}
         <div
           className="bg"
           style={{
             backgroundImage: `url(${skin})`,
           }}
         />
-        {/* brillo */}
+
+        {/* shiny layer */}
         <div className="shine" ref={shineRef} />
 
-        {/* barra lateral (banderas / LIVE) */}
+        {/* left status bar with flags + LIVE */}
         <div className="status">
           <div className="status-top">
             <div
@@ -175,12 +181,12 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
           />
         </div>
 
-        {/* jugador / animación */}
+        {/* player / media */}
         <div className="player-media">
           <MediaComp />
         </div>
 
-        {/* detalles inferiores dentro de la carta */}
+        {/* bottom copy */}
         <div className="details">
           <h2 className="match-name">
             <span className="underline">
@@ -203,7 +209,11 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
         </div>
       </div>
 
-
+      <div className="controls">
+        <button className="btnCard" onClick={handleGenerate}>
+          Download Card
+        </button>
+      </div>
 
       <style jsx>{`
         .fifa-card-wrapper {
@@ -229,6 +239,7 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
           border-radius: 12px;
           overflow: hidden;
           color: #fff;
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
         }
 
         .bg {
@@ -390,6 +401,7 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
           justify-content: center;
           max-width: 280px;
         }
+
         .tag {
           background: rgba(0, 0, 0, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.25);
@@ -407,12 +419,7 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
         }
 
         .btnCard {
-          background: linear-gradient(
-            135deg,
-            #cdaf4e,
-            #e8d074 45%,
-            #b68d2c 100%
-          );
+          background: linear-gradient(135deg, #cdaf4e, #e8d074 45%, #b68d2c 100%);
           color: #1a1a1a;
           border: 0;
           padding: 8px 14px;
@@ -428,12 +435,12 @@ function FifaCardWorldCup({ matchData, skinIndex = 0 }) {
   );
 }
 
-/* ======================
-   HERO PÁGINA (BLANCO)
-   + BLOQUE AZUL DEL MUNDIAL ABAJO
-====================== */
-export default function WorldCupLandingHome() {
-  // calcular --header-h
+/* =======================================================
+   LANDING HERO (WHITE) + BLUE WORLD CUP BLOCK
+   - Top margin honors header height via --header-h
+======================================================= */
+export default function Home() {
+  // compute total height of fixed/sticky headers and store in --header-h
   useEffect(() => {
     const docEl = document.documentElement;
 
@@ -452,54 +459,69 @@ export default function WorldCupLandingHome() {
       docEl.style.setProperty("--header-h", `${total + safeTop}px`);
     };
 
-    const ro = new ResizeObserver(calcHeaderHeight);
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(calcHeaderHeight) : null;
+
     HEADER_SELECTORS.forEach((sel) => {
       const el = document.querySelector(sel);
-      if (el) ro.observe(el);
+      if (el && ro) ro.observe(el);
     });
+
     window.addEventListener("resize", calcHeaderHeight);
     setTimeout(calcHeaderHeight, 0);
     requestAnimationFrame(calcHeaderHeight);
 
     return () => {
-      ro.disconnect();
+      if (ro) ro.disconnect();
       window.removeEventListener("resize", calcHeaderHeight);
     };
   }, []);
 
   return (
     <>
-      {/* HERO PRINCIPAL */}
-      <section className="hero-white">
+      {/* HERO */}
+      <section className="hero-white mt-from-header">
         <div className="hero-inner">
-          {/* texto izquierda */}
+          {/* left copy */}
           <div className="left-col">
             <div className="phase-badge">{MATCH_DATA.phase}</div>
 
-            <h1 className="big-title">
-              APUESTA EN TIEMPO REAL CON TECNOLOGÍA BLOCKCHAIN
-            </h1>
+            <h1 className="big-title">BET LIVE WITH BLOCKCHAIN TECHNOLOGY</h1>
 
-            
+            <p className="sub-head">
+              Build your ticket in seconds, lock your prediction, and watch the odds shift in real time.
+              No house dictating the line — you choose your side and risk.
+            </p>
 
-            <button className="cta-bet">ENTRAR AL MERCADO</button>
+            <p className="pitch">
+              Transparent markets with global liquidity. Pick your position, track dynamic live probabilities,
+              and receive direct crypto payouts on-chain.
+            </p>
+
+            <button className="cta-bet">ENTER MARKET</button>
           </div>
 
-          {/* carta derecha */}
+          {/* right card */}
           <div className="right-col">
             <FifaCardWorldCup matchData={MATCH_DATA} skinIndex={0} />
           </div>
         </div>
       </section>
 
-      {/* BLOQUE AZUL WORLD CUP INFO */}
+      {/* BLUE TOURNAMENT INFO BLOCK */}
       <section className="worldcup-info">
-       
+        <div className="wc-inner">
+          <h2 className="wc-headline">FIFA WORLD CUP 2026 · OFFICIAL MARKETS</h2>
+          <p className="wc-dates">JUN 12 — JUL 19 · STADIUMS USA / MEX / CAN</p>
+          <p className="wc-sub">
+            Live lines, handicaps, totals, and player props. All verified on-chain.
+            Every bet mints a verifiable NFT ticket.
+          </p>
+        </div>
       </section>
 
       <style jsx global>{`
         :root {
-          --header-h: 140px;
+          --header-h: 140px; /* fallback */
           --sat: env(safe-area-inset-top, 0px);
 
           --txt-main: #0b1020;
@@ -508,19 +530,14 @@ export default function WorldCupLandingHome() {
           --accent-gold-mid: #e8d074;
           --accent-gold-end: #b68d2c;
 
-          --brand-blue: #1a1fdd; /* violeta/azul brillante tipo tu screenshot */
+          --brand-blue: #1a1fdd;
           --brand-blue-light: #4a4fff;
           --bg-blue-fade: radial-gradient(
               circle at 50% 0%,
               rgba(255, 255, 255, 0.15) 0%,
               rgba(0, 0, 0, 0) 70%
             ),
-            linear-gradient(
-              180deg,
-              #ffffff 0%,
-              #eef0ff 40%,
-              #dfe2ff 100%
-            );
+            linear-gradient(180deg, #ffffff 0%, #eef0ff 40%, #dfe2ff 100%);
         }
 
         html,
@@ -533,10 +550,13 @@ export default function WorldCupLandingHome() {
           overflow-x: hidden;
         }
 
-        /* HERO BLANCO */
+        /* Utility: margin-top equals header height */
+        .mt-from-header {
+          margin-top: 15vh;
+        }
+
+        /* HERO (WHITE) */
         .hero-white {
-          margin-top: var(--header-h);
-          /* altura tipo hero, pero que no se quede enano en pantallas bajitas */
           min-height: calc(100vh - var(--header-h));
           width: 100vw;
           background: #ffffff;
@@ -547,7 +567,7 @@ export default function WorldCupLandingHome() {
           box-sizing: border-box;
         }
 
-        /* Contenido centrado con max-width para que no se pegue a bordes */
+        /* 2-col desktop / 1-col mobile */
         .hero-inner {
           width: 100%;
           max-width: 1300px;
@@ -566,7 +586,7 @@ export default function WorldCupLandingHome() {
         }
 
         .phase-badge {
-           margin-top:5vh;
+          margin-top: 5vh;
           display: inline-block;
           background: #0b1020;
           color: #fff;
@@ -582,14 +602,23 @@ export default function WorldCupLandingHome() {
         }
 
         .big-title {
-          margin-top: 25vh;
+          margin-top: 2vh;
           font-weight: 800;
           text-transform: uppercase;
           line-height: 1.05;
           letter-spacing: 0.02em;
           color: var(--txt-main);
-          font-size: clamp(28px, 2.5vw, 60px); /* un poco más compacto */
+          font-size: clamp(28px, 2.5vw, 60px);
           max-width: 30ch;
+        }
+
+        .sub-head {
+          font-size: clamp(0.9rem, 0.8vw, 1rem);
+          line-height: 1.4;
+          font-weight: 600;
+          color: var(--txt-main);
+          max-width: 60ch;
+          letter-spacing: -0.01em;
         }
 
         .pitch {
@@ -630,7 +659,7 @@ export default function WorldCupLandingHome() {
           justify-content: center;
         }
 
-        /* BLOQUE AZUL */
+        /* BLUE BLOCK */
         .worldcup-info {
           width: 100vw;
           background: var(--bg-blue-fade);
@@ -652,9 +681,10 @@ export default function WorldCupLandingHome() {
           font-size: clamp(20px, 2vw, 28px);
           line-height: 1.2;
           font-weight: 800;
-          color: var(--brand-blue);
+          color: var(--brand-blue); /* <-- fixed */
           text-transform: uppercase;
           letter-spacing: 0.04em;
+          text-align: center;
         }
 
         .wc-dates {
@@ -675,7 +705,7 @@ export default function WorldCupLandingHome() {
           color: var(--brand-blue);
         }
 
-        /* RESPONSIVE STACK */
+        /* RESPONSIVE */
         @media (max-width: 900px) {
           .hero-inner {
             grid-template-columns: 1fr;
@@ -694,6 +724,10 @@ export default function WorldCupLandingHome() {
 
           .cta-bet {
             align-self: center;
+          }
+
+          .sub-head {
+            text-align: center;
           }
         }
       `}</style>

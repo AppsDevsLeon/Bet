@@ -3,17 +3,17 @@
 import React, { useEffect, useRef } from "react";
 
 export default function HeroWorldCupBanner() {
-  const ticketRef = useRef<HTMLDivElement | null>(null);
-  const holoRef = useRef<HTMLDivElement | null>(null);
+  const ticketRef = useRef(null);
+  const holoRef = useRef(null);
 
-  // tilt y holo shift del boleto
+  // Tilt + holographic shift for the ticket
   useEffect(() => {
-    const el = ticketRef.current;
-    const glareEl = holoRef.current;
-    if (!el || !glareEl) return;
+    const elNode = ticketRef.current;
+    const glareNode = holoRef.current;
+    if (!elNode || !glareNode) return;
 
-    function handleMove(e: MouseEvent) {
-      const rect = el.getBoundingClientRect();
+    function handleMove(e) {
+      const rect = elNode.getBoundingClientRect();
       const w = rect.width;
       const h = rect.height;
       const x = e.clientX - rect.left;
@@ -22,175 +22,144 @@ export default function HeroWorldCupBanner() {
       const rotY = (x / w) * 16 - 8;
       const rotX = -((y / h) * 16 - 8);
 
-      el.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02,1.02,1.02)`;
+      elNode.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02,1.02,1.02)`;
 
       const percent = (x / w) * 200;
-      (glareEl as HTMLElement).style.backgroundPosition = percent + "%";
+      glareNode.style.backgroundPosition = percent + "%";
     }
 
     function handleLeave() {
-      el.style.transform =
+      elNode.style.transform =
         "perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
-      (glareEl as HTMLElement).style.backgroundPosition = "0%";
+      glareNode.style.backgroundPosition = "0%";
     }
 
-    el.addEventListener("mousemove", handleMove);
-    el.addEventListener("mouseleave", handleLeave);
-
+    elNode.addEventListener("mousemove", handleMove);
+    elNode.addEventListener("mouseleave", handleLeave);
     return () => {
-      el.removeEventListener("mousemove", handleMove);
-      el.removeEventListener("mouseleave", handleLeave);
+      elNode.removeEventListener("mousemove", handleMove);
+      elNode.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
 
   return (
     <>
       <section className="hero-wrap">
-        <div className="hero-inner">
-          {/* ================= LEFT COPY ================= */}
-          <div className="left-col">
-            <div className="eyebrow">
-              COPA DEL MUNDO 2026 • ACCESO OFICIAL
+        <div className="hero-shell">
+          <div className="hero-inner">
+            {/* ================= LEFT COPY ================= */}
+            <div className="left-col">
+              <div className="eyebrow">WORLD CUP 2026 • OFFICIAL ACCESS</div>
+
+              <h1 className="headline">
+                STEP INTO THE MATCH <span className="headline-accent">LIVE</span>
+              </h1>
+
+              <p className="subtext">
+                Official FIFA WORLD CUP™ 26 tickets. Pick your venue, enjoy the VIP
+                experience, and access the live odds lounge in real time.
+              </p>
+
+              <button className="cta-main">BUY TICKETS</button>
+
+              <div className="dates">
+                JUNE 11 — JULY 19, 2026 · KANSAS CITY · NORTH AMERICA
+              </div>
             </div>
 
-            <h1 className="headline">
-              ENTRA AL PARTIDO{" "}
-              <span className="headline-accent">EN VIVO</span>
-            </h1>
+            {/* ================= RIGHT TICKET ================= */}
+            <div className="right-col">
+              <div className="ticket-stack">
+                {/* interactive gold ticket */}
+                <div className="ticket-container" ref={ticketRef}>
+                  <div className="ticket-holo-bg" ref={holoRef}></div>
 
-            <p className="subtext">
-              Boletos oficiales FIFA WORLD CUP™ 26.
-              Selecciona tu sede, vive la experiencia VIP y
-              accede al lounge de cuotas en tiempo real.
-            </p>
+                  <div className="ticket-visual">
+                    <div className="ticket-overlay">
+                      {/* world cup logo (optional img here) */}
 
-            <button className="cta-main">COMPRAR BOLETOS</button>
+                      {/* black/gold badge */}
+                      <div className="ticket-badge">★ FIFA WORLD CUP™ 26 ★</div>
 
-            <div className="dates">
-              JUNIO 11 — JULIO 19, 2026 · KANSAS CITY · NORTH AMERICA
-            </div>
-          </div>
+                      {/* ACCESS PASS GOLD */}
+                      <div className="ticket-pass-name" data-text="ACCESS PASS GOLD">
+                        ACCESS PASS GOLD
+                      </div>
 
-          {/* ================= RIGHT TICKET ================= */}
-          <div className="right-col">
-            {/* boleto + detalles pegados */}
-            <div className="ticket-stack">
-              {/* boleto dorado */}
-              <div className="ticket-container" ref={ticketRef}>
-                <div
-                  className="ticket-holo-bg"
-                  ref={holoRef}
-                ></div>
+                      <div className="ticket-line1">MATCH DAY ADMIT</div>
 
-                <div className="ticket-visual">
-                  <div className="ticket-overlay">
-                    {/* logo mundial */}
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Football_%28soccer_ball%29.svg/240px-Football_%28soccer_ball%29.svg.png"
-                      alt="World Cup Logo"
-                      className="ticket-logo"
-                    />
-
-                    {/* badge negro/oro */}
-                    <div className="ticket-badge">
-                      ★ FIFA WORLD CUP™ 26 ★
+                      <div className="ticket-line2">
+                        VIP LOUNGE · LIVE ODDS MARKET
+                      </div>
                     </div>
+                  </div>
+                </div>
 
-                    {/* ACCESS PASS GOLD */}
-                    <div
-                      className="ticket-pass-name"
-                      data-text="ACCESS PASS GOLD"
-                    >
-                      ACCESS PASS GOLD
-                    </div>
+                {/* white box with details */}
+                <div className="ticket-details">
+                  <div className="detail">
+                    <span className="label">EVENT:</span> FIFA WORLD CUP 26™
+                  </div>
+                  <div className="detail">
+                    <span className="label">DATE:</span> JUN 11 — JUL 19 · 2026
+                  </div>
+                  <div className="detail">
+                    <span className="label">VENUE:</span> KANSAS CITY · NORTH AMERICA
+                  </div>
+                  <div className="detail">
+                    <span className="label">TIER:</span> GOLD INSIDER
+                  </div>
+                  <div className="detail">
+                    <span className="label">PASS ID:</span> WC26-KC-0941-GOLD
+                  </div>
 
-                    <div className="ticket-line1">
-                      MATCH DAY ADMIT
-                    </div>
+                  <div className="deadline">⚠ PRESENT THIS PASS BEFORE KICKOFF</div>
 
-                    <div className="ticket-line2">
-                      VIP LOUNGE · LIVE ODDS MARKET
-                    </div>
+                  {/* codes row */}
+                  <div className="codes-row">
+                    <div className="code-left">FIFA·WC26·KSCITY·GOLD</div>
+                    <div className="code-right">WC2626KC26VIP</div>
+                  </div>
+
+                  {/* purchase / nft buttons */}
+                  <div className="actions-row">
+                    <button className="cta-gold">BUY TICKET</button>
+                    <button className="cta-outline">TOKENIZE AS NFT</button>
                   </div>
                 </div>
               </div>
-
-              {/* caja blanca con detalles (debajo del boleto, no flotando encima) */}
-              <div className="ticket-details">
-                <div className="detail">
-                  <span className="label">EVENTO:</span>{" "}
-                  FIFA WORLD CUP 26™
-                </div>
-                <div className="detail">
-                  <span className="label">FECHA:</span>{" "}
-                  JUN 11 — JUL 19 · 2026
-                </div>
-                <div className="detail">
-                  <span className="label">SEDE:</span>{" "}
-                  KANSAS CITY · NORTH AMERICA
-                </div>
-                <div className="detail">
-                  <span className="label">NIVEL:</span>{" "}
-                  GOLD INSIDER
-                </div>
-                <div className="detail">
-                  <span className="label">PASS ID:</span>{" "}
-                  WC26-KC-0941-GOLD
-                </div>
-
-                <div className="deadline">
-                  ⚠ PRESENTA ESTE PASE ANTES DEL KICKOFF
-                </div>
-
-                {/* fila códigos abajo */}
-                <div className="codes-row">
-                  <div className="code-left">
-                    FIFA·WC26·KSCITY·GOLD
-                  </div>
-                  <div className="code-right">
-                    WC2626KC26VIP
-                  </div>
-                </div>
-
-                {/* botones compra / nft debajito del detalle */}
-                <div className="actions-row">
-                  <button className="cta-gold">
-                    COMPRAR BOLETO
-                  </button>
-                  <button className="cta-outline">
-                    TOKENIZAR COMO NFT
-                  </button>
-                </div>
-              </div>
             </div>
+            {/* ================= /RIGHT ================= */}
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        /* ---------- HERO LAYER ---------- */
+        /* ---------- HERO WRAP ---------- */
         .hero-wrap {
           width: 100%;
-          background: radial-gradient(
-              circle at 30% 30%,
-              rgba(0, 255, 200, 0.08) 0%,
-              rgba(0, 0, 0, 0) 60%
-            ),
-            radial-gradient(
-              circle at 70% 60%,
-              rgba(255, 200, 0, 0.08) 0%,
-              rgba(0, 0, 0, 0) 60%
-            ),
-            linear-gradient(135deg, #0a0a1a 0%, #101835 50%, #0a0f2f 100%);
-          color: #fff;
-          font-family: "Georgia", serif;
-          box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
-          padding: 40px 16px;
+          background: #ffffff; /* solid white */
+          padding: 24px 16px;
+          margin-top: 72px; /* leave room under fixed header */
         }
 
-        .hero-inner {
+        /* ---------- WHITE CARD SHELL ---------- */
+        .hero-shell {
           max-width: 1300px;
           margin: 0 auto;
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 32px 24px;
+        }
+
+        @media (min-width: 768px) {
+          .hero-shell {
+            padding: 40px 32px 48px;
+          }
+        }
+
+        /* ---------- INNER GRID ---------- */
+        .hero-inner {
           display: grid;
           gap: 32px;
           grid-template-columns: 1fr minmax(320px, 420px);
@@ -206,80 +175,77 @@ export default function HeroWorldCupBanner() {
         /* ---------- LEFT TEXT ---------- */
         .left-col {
           max-width: 560px;
+          font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+            "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+            sans-serif;
+          color: #0f172a; /* slate-900 */
         }
 
         .eyebrow {
           font-size: 11px;
+          line-height: 1.2;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.6);
+          color: #475569; /* slate-600 */
           font-weight: 600;
           margin-bottom: 16px;
-          text-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
 
         .headline {
-          font-size: clamp(2rem, 1vw + 1.5rem, 3rem);
-          font-weight: 800;
-          line-height: 1.1;
-          color: #fff;
-          text-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+          font-size: clamp(1.9rem, 1vw + 1.5rem, 2.5rem);
+          font-weight: 700;
+          line-height: 1.15;
+          color: #0f172a; /* slate-900 */
           margin: 0 0 16px;
-          max-width: 12ch;
+          max-width: 14ch;
+          font-family: ui-sans-serif, system-ui, "Inter", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
         }
 
         .headline-accent {
-          color: #ffd700;
-          text-shadow: 0 0 10px rgba(255, 215, 0, 0.6),
-            0 0 40px rgba(255, 215, 0, 0.4);
+          color: #b5891a;
+          background-image: linear-gradient(180deg, #e6c764 0%, #b48917 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 800;
           white-space: nowrap;
         }
 
         .subtext {
           font-size: 15px;
           line-height: 1.5;
-          color: rgba(255, 255, 255, 0.7);
-          text-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+          color: #475569; /* slate-600 */
           margin-bottom: 24px;
-          max-width: 40ch;
+          max-width: 45ch;
         }
 
         .cta-main {
-          padding: 12px 24px;
+          padding: 12px 20px;
           border-radius: 999px;
           font-size: 13px;
-          font-weight: 700;
+          font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
-          color: #000;
-          background: linear-gradient(
-            180deg,
-            #e6c764 0%,
-            #b48917 100%
-          );
-          border: 1px solid rgba(0, 0, 0, 0.4);
-          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
-            0 5px 15px rgba(255, 215, 0, 0.25);
+          color: #1e1e1e;
+          background: linear-gradient(180deg, #e6c764 0%, #b48917 100%);
+          border: 1px solid rgba(0, 0, 0, 0.2);
           cursor: pointer;
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
-          margin-bottom: 24px;
+          transition: all 0.15s ease;
+          margin-bottom: 20px;
         }
 
         .cta-main:hover {
-          transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8),
-            0 8px 20px rgba(255, 215, 0, 0.3);
+          transform: translateY(-1px) scale(1.02);
         }
 
         .dates {
-          font-size: 12px;
+          font-size: 11px;
           line-height: 1.4;
           font-weight: 600;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.6);
+          color: #64748b; /* slate-500 */
           text-transform: uppercase;
-          text-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
         }
 
         /* ---------- RIGHT SIDE (TICKET + DETAILS) ---------- */
@@ -287,6 +253,9 @@ export default function HeroWorldCupBanner() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          font-family: ui-sans-serif, system-ui, "Inter", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+          color: #0f172a;
         }
 
         .ticket-stack {
@@ -297,7 +266,7 @@ export default function HeroWorldCupBanner() {
           gap: 16px;
         }
 
-        /* boleto */
+        /* gold ticket with tilt */
         .ticket-container {
           position: relative;
           width: 100%;
@@ -324,11 +293,8 @@ export default function HeroWorldCupBanner() {
           );
           background-size: 300%;
           background-position: 0%;
-          box-shadow: 0 0 60px rgba(255, 215, 0, 0.6),
-            0 0 100px rgba(255, 215, 0, 0.4),
-            0 20px 60px rgba(0, 0, 0, 0.6);
-          animation: shimmer-react 3s ease-in-out infinite;
           border: 2px solid rgba(255, 215, 0, 0.5);
+          animation: shimmer-react 3s ease-in-out infinite;
         }
 
         @keyframes shimmer-react {
@@ -337,7 +303,7 @@ export default function HeroWorldCupBanner() {
             filter: brightness(1);
           }
           50% {
-            filter: brightness(1.2);
+            filter: brightness(1.15);
           }
         }
 
@@ -359,7 +325,7 @@ export default function HeroWorldCupBanner() {
           position: relative;
           text-align: center;
           max-width: 80%;
-          color: #1a1a2e;
+          color: #1e1e2e;
           font-family: "Georgia", serif;
           pointer-events: none;
           display: flex;
@@ -372,47 +338,42 @@ export default function HeroWorldCupBanner() {
           height: 44px;
           object-fit: contain;
           opacity: 0.9;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
           margin-bottom: 8px;
         }
 
         .ticket-badge {
-          background: linear-gradient(135deg, #000000 0%, #2d2d2d 100%);
+          background: #111;
+          background-image: linear-gradient(135deg, #000 0%, #2d2d2d 100%);
           color: #ffd700;
           padding: 6px 18px;
           border-radius: 20px;
-          font-size: 11px;
-          font-weight: bold;
+          font-size: 10px;
+          font-weight: 700;
           letter-spacing: 1.5px;
           text-transform: uppercase;
           border: 2px solid #ffd700;
-          box-shadow: inset 0 1px 2px rgba(255, 215, 0, 0.3),
-            0 4px 12px rgba(0, 0, 0, 0.8);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.6),
+            inset 0 1px 2px rgba(255, 215, 0, 0.3);
           margin-bottom: 12px;
-          text-shadow: 0 0 8px rgba(255, 215, 0, 0.5),
-            0 0 32px rgba(255, 215, 0, 0.25);
+          text-shadow: 0 0 8px rgba(255, 215, 0, 0.4),
+            0 0 32px rgba(255, 215, 0, 0.2);
         }
 
         .ticket-pass-name {
           font-family: "Aboreto", system-ui;
-          font-size: 18px;
-          font-weight: 900;
+          font-size: 16px;
+          font-weight: 800;
           letter-spacing: 3px;
           text-transform: uppercase;
           margin-bottom: 8px;
-          background: linear-gradient(
-            180deg,
-            #2a2a3e 0%,
-            #1a1a2e 50%,
-            #000 100%
-          );
+          background: linear-gradient(180deg, #2a2a3e 0%, #1a1a2e 50%, #000 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          filter: drop-shadow(0 1px 0 rgba(255, 215, 0, 0.3));
           position: relative;
           color: transparent;
           text-align: center;
+          filter: drop-shadow(0 1px 0 rgba(255, 215, 0, 0.25));
         }
 
         .ticket-pass-name::before {
@@ -432,34 +393,32 @@ export default function HeroWorldCupBanner() {
         }
 
         .ticket-line1 {
-          font-size: 13px;
-          font-weight: 700;
+          font-size: 12px;
+          font-weight: 600;
           letter-spacing: 2px;
           text-transform: uppercase;
           color: #2a2a3e;
           margin-bottom: 4px;
-          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
         .ticket-line2 {
           font-size: 11px;
-          font-weight: 600;
+          font-weight: 500;
           letter-spacing: 0.5px;
           color: #3a3a4e;
-          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
-        /* caja blanca detalles del ticket */
+        /* ---------- DETAILS BOX UNDER TICKET ---------- */
         .ticket-details {
-          background: rgba(255, 255, 255, 0.92);
-          backdrop-filter: blur(4px);
-          border-radius: 8px;
-          border: 2px solid #ffd966;
-          box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2),
-            0 20px 40px rgba(0, 0, 0, 0.4);
-          padding: 16px;
-          color: #1a1a2e;
-          font-family: "Share Tech Mono", monospace;
+          background: #ffffff;
+          border-radius: 12px;
+          border: 1px solid rgba(15, 23, 42, 0.07);
+          box-shadow: 0 20px 40px rgba(15, 23, 42, 0.07),
+            0 2px 4px rgba(15, 23, 42, 0.05);
+          padding: 16px 16px 20px;
+          color: #0f172a;
+          font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo,
+            Consolas, Liberation Mono, monospace;
           font-size: 11px;
           line-height: 1.4em;
         }
@@ -468,6 +427,7 @@ export default function HeroWorldCupBanner() {
           margin-bottom: 4px;
           font-weight: 600;
           letter-spacing: 0.05em;
+          color: #1e293b;
         }
 
         .label {
@@ -476,27 +436,28 @@ export default function HeroWorldCupBanner() {
 
         .deadline {
           font-size: 11px;
-          color: #d32f2f;
-          font-weight: bold;
-          margin-top: 8px;
-          letter-spacing: 0.5em;
+          font-weight: 700;
+          margin-top: 10px;
           line-height: 1.4em;
+          letter-spacing: 0.4em;
+          color: #b91c1c;
+          text-transform: uppercase;
         }
 
         .codes-row {
           display: flex;
           flex-direction: column;
-          gap: 4px;
-          margin-top: 12px;
-          background: rgba(0, 0, 0, 0.75);
+          gap: 6px;
+          margin-top: 14px;
+          background: #0f172a;
           border: 1px solid rgba(255, 215, 0, 0.4);
           border-radius: 8px;
-          padding: 8px 12px;
+          padding: 10px 12px;
           text-align: center;
           color: #ffd700;
           text-shadow: 0 0 8px rgba(255, 215, 0, 0.5),
             0 0 32px rgba(255, 215, 0, 0.25);
-          font-family: "Share Tech Mono", monospace;
+          font-family: "Share Tech Mono", ui-monospace, monospace;
         }
 
         .code-left {
@@ -518,8 +479,9 @@ export default function HeroWorldCupBanner() {
           display: flex;
           flex-direction: column;
           gap: 12px;
-          margin-top: 16px;
-          font-family: "Georgia", serif;
+          margin-top: 18px;
+          font-family: ui-sans-serif, system-ui, "Inter", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
         }
 
         @media (min-width: 480px) {
@@ -533,27 +495,23 @@ export default function HeroWorldCupBanner() {
           padding: 12px 16px;
           border-radius: 999px;
           font-size: 12px;
-          font-weight: 700;
+          font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
-          color: #000;
-          background: linear-gradient(
-            180deg,
-            #e6c764 0%,
-            #b48917 100%
-          );
-          border: 1px solid rgba(0, 0, 0, 0.4);
-          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
-            0 5px 15px rgba(255, 215, 0, 0.25);
+          color: #1e1e1e;
+          background: linear-gradient(180deg, #e6c764 0%, #b48917 100%);
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-shadow: 0 18px 32px rgba(180, 137, 23, 0.28),
+            0 3px 4px rgba(0, 0, 0, 0.2);
           cursor: pointer;
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
+          transition: all 0.15s ease;
+          text-align: center;
         }
 
         .cta-gold:hover {
-          transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8),
-            0 8px 20px rgba(255, 215, 0, 0.3);
+          transform: translateY(-1px) scale(1.02);
+          box-shadow: 0 24px 44px rgba(180, 137, 23, 0.35),
+            0 5px 6px rgba(0, 0, 0, 0.24);
         }
 
         .cta-outline {
@@ -561,25 +519,21 @@ export default function HeroWorldCupBanner() {
           padding: 12px 16px;
           border-radius: 999px;
           font-size: 12px;
-          font-weight: 700;
+          font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
-          color: #ffd700;
-          background: rgba(0, 0, 0, 0.8);
-          border: 2px solid #ffd700;
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
-            0 5px 15px rgba(255, 215, 0, 0.15);
+          color: #0f172a;
+          background: #ffffff;
+          border: 2px solid #b48917;
+          box-shadow: 0 10px 18px rgba(15, 23, 42, 0.07),
+            0 2px 4px rgba(15, 23, 42, 0.05);
           cursor: pointer;
-          text-shadow: 0 0 8px rgba(255, 215, 0, 0.5),
-            0 0 32px rgba(255, 215, 0, 0.25);
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
+          text-align: center;
           white-space: nowrap;
         }
 
         .cta-outline:hover {
-          transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8),
-            0 8px 20px rgba(255, 215, 0, 0.4);
+          background: #fff7e0;
         }
       `}</style>
     </>

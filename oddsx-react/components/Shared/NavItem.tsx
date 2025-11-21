@@ -6,10 +6,10 @@ import React from "react";
 import { naviTemData } from "@/public/data/navData";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
-/** Si usas rutas con locale (/en, /es), lo limpiamos para comparar.  */
+/** limpia /es /en /pt para comparar rutas */
 const stripLocale = (p: string) => p.replace(/^\/(es|en|pt)(?=\/|$)/, "") || "/";
 
-/** Activo por igualdad o por subruta (ej. /sports y /sports/nfl) */
+/** activo por igualdad o subruta */
 const isActivePath = (href: string, path: string) => {
   if (!href) return false;
   const H = stripLocale(href);
@@ -25,19 +25,45 @@ export default function NavItem() {
 
   return (
     <>
-      {items.map((item: { id: string | number; href: string; linkText: string }) => {
-        const active = isActivePath(item.href, pathname);
+      {items.map((it: { id: string | number; href: string; linkText: string }) => {
+        const active = isActivePath(it.href, pathname);
         return (
-          <li className="dropdown show-dropdown" key={item.id}>
+          <li key={it.id}>
             <Link
-              href={item.href}
-              className={`navunik ${active ? "active" : ""}`}
+              href={it.href}
+              className={active ? "active" : undefined}
               aria-current={active ? "page" : undefined}
-              data-active={active ? "true" : undefined}
               prefetch={false}
             >
-              {item.linkText}
+              {it.linkText}
             </Link>
+            <style jsx>{`
+              a {
+                display: block;
+                padding: 6px 0;
+                font-size: 14px;
+                font-weight: 600;
+                color: #0f172a;
+                text-decoration: none;
+                line-height: 1.2;
+                white-space: nowrap;    /* evita cortar (World Cup) */
+                word-break: keep-all;
+                margin-left:40px;
+
+      
+              }
+              a:hover { color: #1e3a8a; }
+              a.active {
+                color: #1e3a8a;
+                position: relative;
+              }
+              a.active::after {
+                content: "";
+                position: absolute;
+                left: 0; right: 0; bottom: -2px;
+                height: 2px; background: #1e3a8a; border-radius: 1px;
+              }
+            `}</style>
           </li>
         );
       })}

@@ -1,10 +1,15 @@
 
-import TopEfighting from '@/components/Pages/Efighting/TopEfighting';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-            <TopEfighting />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="efighting" />
+        </div>
+      </div>
+
+    </>
+  );
 }

@@ -1,12 +1,15 @@
 
-import TopIceHockey from '@/components/Pages/IceHockey/TopIceHockey';
-import UpCmingIceHockey from '@/components/Pages/IceHockey/UpCmingIceHockey';
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-export default function page() {
-    return (
-        <>
-            <TopIceHockey />
-            <UpCmingIceHockey />
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="ice-hockey" />
+        </div>
+      </div>
+
+    </>
+  );
 }

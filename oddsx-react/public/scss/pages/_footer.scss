@@ -29,7 +29,7 @@
             }
             background-color: rgb(var(--n11));
             .footericon {
-                color: #1FBCEE;
+                color: #fff;
                 width: 31px;
                 height: 31px;
                 @include maxQuery(991) {
@@ -123,13 +123,13 @@
     }
 
     &__head {
-        background-color: rgb(var(--g1));
+        background-color: rgb(var( --blue-primary));
         border-radius: 20px 20px 0 0;
 
         &-n1 {
             @include box(20);
             background-color: rgb(var(--n7));
-            color: rgb(var(--g1));
+            color: rgb(var(--blue-primary));
             font-weight: 600;
         }
 
@@ -145,7 +145,7 @@
                 text-indent: -9999px;
                 width: 44px;
                 height: 24px;
-                background: rgb(var(--g1));
+                background: rgb(var(  --blue-primary));
                 display: block;
                 border-radius: 100px;
                 position: relative;
@@ -165,7 +165,7 @@
             }
 
             input:checked+label {
-                background: rgb(var(--g1));
+                background: rgb(var(  --blue-primary));
             }
 
             input:checked+label:after {

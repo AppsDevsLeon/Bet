@@ -1,11 +1,14 @@
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
 
-import UpCmingHandball from '@/components/Pages/Handball/UpCmingHandball';
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="handball" />
+        </div>
+      </div>
 
-export default function page() {
-    return (
-        <>
-     
-            <UpCmingHandball />
-        </>
-    )
+    </>
+  );
 }

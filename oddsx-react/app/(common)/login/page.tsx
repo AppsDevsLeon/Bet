@@ -1,12 +1,15 @@
-import Login from '@/components/Pages/Login/Login'
-import LogRegHeader from '@/components/Shared/LogRegHeader'
-import React from 'react'
 
-export default function page() {
-    return (
-        <>
-            <LogRegHeader />
-            <Login />
-        </>
-    )
+import NFLSection from '@/components/Pages/AmericanFootball/UpCmingAmericanFootball';
+
+export default function Page() {
+  return (
+    <>
+      <div className="page-under-header">
+        <div className="page-under-header-inner">
+          <NFLSection sportSlug="nfl" />
+        </div>
+      </div>
+
+    </>
+  );
 }
